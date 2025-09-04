@@ -7,4 +7,4 @@ import os
 if __name__ == '__main__':
     report = data_report('./', 'dbo_Miscon.txt')
     print("Miscon opened")
-    print(miscon_per_institution(report, '2020'))
+    print(miscon_per_institution(report, '2023'))

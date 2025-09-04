@@ -29,9 +29,20 @@ def data_report(dirname, filename):
 # def write_file(obj_dict):
 #   Create a function here that will consume a python dictionary and output a csv file for easy read.
 
+def miscon_by_year(data_report, year):
+        # Applies a filter variable to each entry with the desired year.
+        data_report[year] = data_report['misconduct_date'].apply(lambda x: 1 if str(x)[:4] == year else 0)
+        return data_report[(data_report[year] == 1)]
+
 def miscon_per_institution(data_report, year):
         # Goes through report and creates a dictionary of misconduct counts by institution
         # Filter for preferred year by misconduct_date
-        miscon_dict = {}
-        for miscon in data_report:
-            print(miscon)
+        filtered_data = miscon_by_year(data_report, year)
+        miscon_per_institution = {}
+        for mis_inst in filtered_data['institution']:
+                if mis_inst not in miscon_per_institution:
+                        miscon_per_institution[mis_inst] = 0
+                else:
+                        miscon_per_institution[mis_inst] += 1
+                print("Institution: ", mis_inst, "Count: ", miscon_per_institution[mis_inst])
+        return miscon_per_institution
