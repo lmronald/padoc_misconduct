@@ -13,21 +13,9 @@ Author: Lace Ronald
 Re-use of this code is permitted under the MIT license. Property of Bucknell University.
     
 """
-
-def data_report(dirname, filename):
-        # Used to verify data is well-formed.
-        # Fix encoding error and convert to UTF-8 before reading file.
-        source_encoding = 'latin1'
-        source_file = os.path.join(dirname, filename)
-        target_file = os.path.join(dirname, filename) + '_utf8.txt'
-        with codecs.open(source_file, 'r', source_encoding) as infile:
-            with codecs.open(target_file, 'w', 'utf-8') as outfile:
-                outfile.write(infile.read())
-        fRead = pd.read_csv(target_file)
-        return fRead
-
-# def write_file(obj_dict):
-#   Create a function here that will consume a python dictionary and output a csv file for easy read.
+def miscon_by_month_and_year(data_report, month, year):
+        data_report[year] = data_report['misconduct_date'].apply(lambda x: 1 if str(x)[:6] == (year + month) else 0)
+        return data_report[(data_report[year] == 1)]
 
 def miscon_by_year(data_report, year):
         # Applies a filter variable to each entry with the desired year.
@@ -44,5 +32,4 @@ def miscon_per_institution(data_report, year):
                         miscon_per_institution[mis_inst] = 0
                 else:
                         miscon_per_institution[mis_inst] += 1
-                print("Institution: ", mis_inst, "Count: ", miscon_per_institution[mis_inst])
         return miscon_per_institution
