@@ -32,3 +32,10 @@ def data_report(dirname, filename):
             outfile.write(infile.read())
     fRead = pd.read_csv(target_file)
     return fRead
+
+def rates_of_misconduct_per_year(misconduct, population):
+    rates = {}
+    for inst in misconduct.keys():
+        rates[inst] = misconduct[inst] / population[inst]
+    print("Rates of misconduct: ", rates)
+    return rates

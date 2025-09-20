@@ -6,6 +6,7 @@ import plotly.express as px
 import plotly.graph_objects as go
 import codecs
 import statistics
+import re
 
 """
 Author: Lace Ronald
@@ -15,6 +16,8 @@ Re-use of this code is permitted under the MIT license. Property of Bucknell Uni
 This file includes basic functions for generating data objects from csv.
 
 Future work here will include visualization functions for data objects.
+
+TODO: Break things into monthly amounts for more granular data graphs.
 
 """
 
@@ -30,28 +33,30 @@ def population_per_institution(data, year):
     # Ingests the population data from physically-present-population-23-24.
     # Outputs the institution and the average population that year.
     inst_list = institution_list(data)
-    filtered_data = pop_by_year(data, year)
+    data_by_year = pop_by_year(data, year)
     pop_per_institution = {}
     for inst in inst_list:
-        inst_data = pop_by_institution(filtered_data, inst)
-        print("pop by institution: ", inst_data)
+        inst_data = pop_by_institution(data_by_year, inst)
         pops_by_month = []
         for pop in inst_data['DOC Physically Present Total']:
             pops_by_month.append(pop)
-            print(pop)
-        pop_per_institution[inst] = statistics.mean(pops_by_month)
+        if inst == 'WAM':
+            #This institution is coded in the data with a * after it and I'm not sure why.
+            pop_per_institution[inst] = pop_per_institution['WAM*']
+        else:
+            pop_per_institution[inst] = statistics.mean(pops_by_month)
     return pop_per_institution
 
-def pop_by_institution(data, institution):
+def pop_by_institution(data, inst):
     # Filters population data to only desired institution.
-    data[institution] = data['Institution'].apply(lambda  x: 1 if x == institution else 0)
-    print("filter by institution: ", data[institution])
-    return data[(data[institution])]
+    return data.loc[data['Institution'] == inst]
 
-def pop_by_month_and_year(data, month, year):
-    data[year] = data['date'].apply(lambda x: 1 if str(x)[:6] == (year + month) else 0)
-    return data[(data[year] == 1)]
+def pop_by_month_and_year(data_report, month, year):
+    data_report['date'].apply(lambda x: str(x)[:7])
+    return data_report.loc[data_report['date'] == year + '-' + month]
+
 def pop_by_year(data_report, year):
     # Applies a filter variable to each entry with the desired year.
-    data_report[year] = data_report['date'].apply(lambda x: 1 if str(x)[:4] == year else 0)
-    return data_report[(data_report[year] == 1)]
+    # Change dates to year only
+    data_report['date'] = data_report['date'].apply(lambda x: str(x)[:4])
+    return data_report.loc[data_report['date'] == year]
