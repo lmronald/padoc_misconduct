@@ -30,7 +30,7 @@ def institution_list(data):
     return inst_list
 
 def population_per_institution(data, year):
-    # Ingests the population data from physically-present-population-23-24.
+    # Ingests the population data from physically-present-population file.
     # Outputs the institution and the average population that year.
     inst_list = institution_list(data)
     data_by_year = pop_by_year(data, year)
@@ -47,13 +47,36 @@ def population_per_institution(data, year):
             pop_per_institution[inst] = statistics.mean(pops_by_month)
     return pop_per_institution
 
+def population_per_institution_by_month_and_year(data, year):
+    # Ingests the population data from physically-present-population file.
+    # Outputs the institution and the average population that year.
+    inst_list = institution_list(data)
+    pop_per_institution = {}
+    for inst in inst_list:
+        pop_per_month = {}
+        month = 1
+        inst_data = pop_by_institution(data, inst)
+        while month < 13:
+            month_str = str(month)
+            if month < 10:
+                month_str = "0" + month_str
+            data_by_month = pop_by_month_and_year(inst_data, month_str, year)
+            for monthly_pop in data_by_month['DOC Physically Present Total']:
+                pop_per_month[month_str] = monthly_pop
+            month += 1
+        if inst == 'WAM':
+            #This institution is coded in the data with a * after it and I'm not sure why.
+            pop_per_institution[inst] = pop_per_institution['WAM*']
+        else:
+            pop_per_institution[inst] = pop_per_month
+    return pop_per_institution
+
 def pop_by_institution(data, inst):
     # Filters population data to only desired institution.
     return data.loc[data['Institution'] == inst]
 
 def pop_by_month_and_year(data_report, month, year):
-    data_report['date'].apply(lambda x: str(x)[:7])
-    return data_report.loc[data_report['date'] == year + '-' + month]
+    return data_report.loc[data_report['date'] == year + '-' + month + '-01']
 
 def pop_by_year(data_report, year):
     # Applies a filter variable to each entry with the desired year.
