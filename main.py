@@ -15,7 +15,9 @@ if __name__ == '__main__':
     annual_rates = rates_of_misconduct_per_year(misconduct, population)
 
     inst_miscon_report_monthly = data_report('./', 'dbo_Miscon.txt')
-    miscon_by_month = miscon_per_institution_by_month_and_year(inst_miscon_report_monthly, '2023')
+    sci_list = sci_list(inst_miscon_report_monthly, 'institution')
+    print("SCI List: ", sci_list)
+    miscon_by_month = miscon_per_institution_by_month_and_year(inst_miscon_report_monthly,sci_list, '2023')
     print("miscon by month: ", miscon_by_month)
 
     inst_pop_report_monthly = data_report('./', 'physically-present-population-23-24.csv')

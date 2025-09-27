@@ -10,18 +10,11 @@ import codecs
 """
 Author: Lace Ronald
     
-Re-use of this code is permitted under the MIT license. Property of Bucknell University.
-    
 """
 def miscon_by_month_and_year(data_report, month, year):
-        #need to rewrite to avoid filtering like this and match up with population function.
-        #first remove the day from the date string to filter by month without erasing data in the data object.
-        # data_report['miscon_date_month'] = data_report['misconduct_date'].apply(lambda x: str(x)[:6])
+        # Use integer math to compare year and month without regarding the day.
         year_int = int(year + month)
-        # I think there's a weird comparison issue here. Trying to fix it with integer math.
-        # TODO fix math below and filter by month properly.
-        print ("year int: ")
-        return data_report.loc[data_report['misconduct_date'] // 100 == year + month]
+        return data_report.loc[data_report['misconduct_date'] // 100 == year_int]
 
 def miscon_by_year(data_report, year):
         # Applies a filter variable to each entry with the desired year.
@@ -40,21 +33,19 @@ def miscon_per_institution(data_report, year):
                         miscon_per_institution[mis_inst] += 1
         return miscon_per_institution
 
-def miscon_per_institution_by_month_and_year(data_report, year):
+def miscon_per_institution_by_month_and_year(data_report, sci_list, year):
     miscon_per_institution = {}
-    for inst in data_report['institution']:
+    for inst in sci_list:
         miscon_per_month = {}
         data_by_inst = data_report.loc[data_report['institution'] == inst]
         month = 1
-        while month < 13:
-            month_str = str(month)
-            if month < 10:
-                month_str = "0" + month_str
-            data_by_month = miscon_by_month_and_year(data_by_inst, month_str, year)
-            print("inst: ", inst)
-            print("data by month: ", data_by_month)
-            # for monthly_miscon in data_by_month[]:
-            #     miscon_per_month[month_str] += 1
-            month += 1
+        if inst not in miscon_per_institution :
+            while month < 13:
+                month_str = str(month)
+                if month < 10:
+                    month_str = "0" + month_str
+                data_by_month = miscon_by_month_and_year(data_by_inst, month_str, year)
+                miscon_per_month[month_str] = data_by_month.size
+                month += 1
             miscon_per_institution[inst] = miscon_per_month
     return miscon_per_institution

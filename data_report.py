@@ -39,3 +39,10 @@ def rates_of_misconduct_per_year(misconduct, population):
         rates[inst] = misconduct[inst] / population[inst]
     print("Rates of misconduct: ", rates)
     return rates
+
+def sci_list(data_report, inst_field):
+    sci_list = []
+    for inst in data_report[inst_field]:
+        if inst not in sci_list:
+            sci_list.append(inst)
+    return sci_list
