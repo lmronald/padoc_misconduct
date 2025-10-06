@@ -34,3 +34,20 @@ def sci_scatter_plot(sci_miscon, sci_population, sci, year):
         yaxis_title="Population Rates"
     )
     fig.show()
+
+def sci_bar_plot(sci_miscon, sci, year):
+    # Take dictionaries of SCI by month for population and misconduct.
+    sorted_miscon = sorted(sci_miscon)
+    miscon = [sci_miscon[key] for key in sorted_miscon]
+    fig = go.Figure()
+    fig.add_trace(go.Bar(
+        x=["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep",
+              "Oct", "Nov", "Dec"],
+        y=miscon
+    ))
+    fig.update_layout(
+        title="Misconduct for " + year,
+        xaxis_title="Month",
+        yaxis_title="Misconduct Rates"
+    )
+    fig.show()
