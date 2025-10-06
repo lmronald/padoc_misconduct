@@ -49,3 +49,8 @@ def miscon_per_institution_by_month_and_year(data_report, sci_list, year):
                 month += 1
             miscon_per_institution[inst] = miscon_per_month
     return miscon_per_institution
+
+def sci_check(data_report, sci_name, year):
+    # get SCI data from a given institution and year.
+    sci_data = data_report.loc[data_report['institution'] == sci_name]
+    return sci_data.loc[sci_data['misconduct_date']//10000 == year]
