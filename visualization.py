@@ -10,6 +10,33 @@ Graph visualizations of misconduct and population data across SCis.
 Author: Lace Ronald
 """
 
+def all_sci_scatter_plot(misconducts, populations, year):
+    fig = go.Figure()
+    for inst in populations:
+        miscon_inst = misconducts[inst]
+        pop_inst = populations[inst]
+        sorted_miscon = sorted(miscon_inst)
+        sorted_pop = sorted(pop_inst)
+        miscon = [miscon_inst[key] for key in sorted_miscon]
+        print("Miscon values: ", miscon)
+        pop = [pop_inst[key] for key in sorted_pop]
+        print("pop values: ", pop)
+        fig.add_trace(go.Scatter(
+            x=miscon,
+            y=pop,
+            mode="markers+text",
+            name= inst + " " + year,
+            text=["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep",
+                  "Oct", "Nov", "Dec"],
+            textposition="top center"
+        ))
+    fig.update_layout(
+        title="Misconduct and Population for " + year,
+        xaxis_title="Misconduct Rates",
+        yaxis_title="Population Rates"
+    )
+    fig.show()
+
 def sci_scatter_plot(sci_miscon, sci_population, sci, year):
     # Take dictionaries of SCI by month for population and misconduct.
     sorted_miscon = sorted(sci_miscon)
@@ -46,7 +73,7 @@ def sci_bar_plot(sci_miscon, sci, year):
         y=miscon
     ))
     fig.update_layout(
-        title="Misconduct for " + year,
+        title="Misconduct for " + sci + " " + year,
         xaxis_title="Month",
         yaxis_title="Misconduct Rates"
     )
