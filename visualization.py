@@ -22,8 +22,8 @@ def all_sci_scatter_plot(misconducts, populations, year):
         pop = [pop_inst[key] for key in sorted_pop]
         print("pop values: ", pop)
         fig.add_trace(go.Scatter(
-            x=miscon,
-            y=pop,
+            x=pop,
+            y=miscon,
             mode="markers+text",
             name= inst + " " + year,
             text=["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep",
@@ -32,8 +32,8 @@ def all_sci_scatter_plot(misconducts, populations, year):
         ))
     fig.update_layout(
         title="Misconduct and Population for " + year,
-        xaxis_title="Misconduct Rates",
-        yaxis_title="Population Rates"
+        xaxis_title="Population by Month",
+        yaxis_title="Misconduct by Month"
     )
     fig.show()
 
@@ -47,8 +47,8 @@ def sci_scatter_plot(sci_miscon, sci_population, sci, year):
     print("pop values: ", pop)
     fig = go.Figure()
     fig.add_trace(go.Scatter(
-        x=miscon,
-        y=pop,
+        x=pop,
+        y=miscon,
         mode="markers+text",
         name=sci + " " + year,
         text=["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep",
@@ -57,8 +57,8 @@ def sci_scatter_plot(sci_miscon, sci_population, sci, year):
     ))
     fig.update_layout(
         title="Misconduct and Population for " + year,
-        xaxis_title="Misconduct Rates",
-        yaxis_title="Population Rates"
+        xaxis_title="Population by Month",
+        yaxis_title="Misconduct by Month"
     )
     fig.show()
 
@@ -75,6 +75,6 @@ def sci_bar_plot(sci_miscon, sci, year):
     fig.update_layout(
         title="Misconduct for " + sci + " " + year,
         xaxis_title="Month",
-        yaxis_title="Misconduct Rates"
+        yaxis_title="Misconduct count"
     )
     fig.show()
