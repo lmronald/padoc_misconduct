@@ -3,6 +3,7 @@ from data_report import *
 from misconduct import *
 from population import *
 from visualization import *
+from capacity import *
 import os
 
 # Press the green button in the gutter to run the script.
@@ -29,13 +30,18 @@ if __name__ == '__main__':
     # Delete misformed inst.
     del pop_by_month["WAM*"]
 
-    inst_occ_report_monthly = data_report('./', 'occupancy-23-24.csv')
+    inst_cap_report_monthly = data_report('./', 'occupancy-23-24.csv')
+    capacity_by_month = capacity_per_institution_by_month_and_year(inst_cap_report_monthly, '2023')
+    print("Capacity: ", capacity_by_month)
+    miscon_rates = miscon_rates_by_month_and_year(miscon_by_month, pop_by_month)
+    print("Miscon rates: ", miscon_rates)
 
 
-    for inst in pop_by_month:
-        # Break is on this loop for testing. Can expand to make all the graphs at once, or do a big graph with all the SCIs in one.
-        if miscon_by_month[inst]:
-            sci_bar_plot(miscon_by_month[inst], inst, '2023')
-        break
-    all_sci_scatter_plot(miscon_by_month, pop_by_month, "2023")
 
+    # for inst in pop_by_month:
+    #     # Break is on this loop for testing. Can expand to make all the graphs at once, or do a big graph with all the SCIs in one.
+    #     if miscon_by_month[inst]:
+    #         sci_bar_plot(miscon_by_month[inst], inst, '2023')
+    #     break
+    # all_sci_scatter_plot(miscon_by_month, pop_by_month, "2023")
+    #

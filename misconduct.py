@@ -50,6 +50,23 @@ def miscon_per_institution_by_month_and_year(data_report, sci_list, year):
             miscon_per_institution[inst] = miscon_per_month
     return miscon_per_institution
 
+def miscon_rates_by_month_and_year(miscons, populations):
+    # Take population and misconduct dictionaries by month and year and produce the misconduct rates for those months.
+    rates = {}
+    for sci in populations:
+        monthly_rate = {}
+        sci_miscons = miscons[sci]
+        sci_pops = populations[sci]
+        month = 1
+        while month < 13:
+            month_str = str(month)
+            if month < 10:
+                month_str = "0" + str(month)
+            monthly_rate[month_str] = sci_miscons[month_str]/sci_pops[month_str]
+            month += 1
+        rates[sci] = monthly_rate
+    return rates
+
 def sci_check(data_report, sci_name, year):
     # get SCI data from a given institution and year.
     sci_data = data_report.loc[data_report['institution'] == sci_name]
