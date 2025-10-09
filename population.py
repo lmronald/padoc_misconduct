@@ -11,13 +11,9 @@ import re
 """
 Author: Lace Ronald
 
-Re-use of this code is permitted under the MIT license. Property of Bucknell University.
+This file breaks down the population data for visualization. 
 
-This file includes basic functions for generating data objects from csv.
-
-Future work here will include visualization functions for data objects.
-
-TODO: Break things into monthly amounts for more granular data graphs.
+Separate from the occupancy data, but may not be useful for final data visualization.
 
 """
 

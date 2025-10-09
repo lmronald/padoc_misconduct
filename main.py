@@ -14,6 +14,7 @@ if __name__ == '__main__':
 
     inst_pop_report_annual = data_report('./', 'physically-present-population-23-24.csv')
     population = population_per_institution(inst_pop_report_annual, '2023')
+    # Delete misformed inst.
     del population["WAM*"]
     annual_rates = rates_of_misconduct_per_year(misconduct, population)
 
@@ -25,7 +26,10 @@ if __name__ == '__main__':
 
     inst_pop_report_monthly = data_report('./', 'physically-present-population-23-24.csv')
     pop_by_month = population_per_institution_by_month_and_year(inst_pop_report_monthly, '2023')
+    # Delete misformed inst.
     del pop_by_month["WAM*"]
+
+    inst_occ_report_monthly = data_report('./', 'occupancy-23-24.csv')
 
 
     for inst in pop_by_month:

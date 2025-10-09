@@ -3,6 +3,7 @@ import os
 import re
 import plotly.express as px
 import plotly.graph_objects as go
+from plotly.validator_cache import ValidatorCache
 
 """
 Graph visualizations of misconduct and population data across SCis.
@@ -12,6 +13,16 @@ Author: Lace Ronald
 
 def all_sci_scatter_plot(misconducts, populations, year):
     fig = go.Figure()
+    SymbolValidator = ValidatorCache.get_validator("scatter.marker", "symbol")
+    raw_symbols = SymbolValidator.values
+    namestems = []
+    namevariants = []
+    symbols = []
+    for i in range(0, len(raw_symbols), 3):
+        name = raw_symbols[i + 2]
+        symbols.append(raw_symbols[i])
+        namestems.append(name.replace("-open", "").replace("-dot", ""))
+        namevariants.append(name[len(namestems[-1]):])
     for inst in populations:
         miscon_inst = misconducts[inst]
         pop_inst = populations[inst]
@@ -25,6 +36,7 @@ def all_sci_scatter_plot(misconducts, populations, year):
             x=pop,
             y=miscon,
             mode="markers+text",
+            marker_symbol=symbols,
             name= inst + " " + year,
             text=["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep",
                   "Oct", "Nov", "Dec"],
