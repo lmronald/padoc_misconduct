@@ -44,8 +44,8 @@ def all_sci_scatter_plot(misconducts, capacity, year):
         ))
     fig.update_layout(
         title="Misconduct and Population for " + year,
-        xaxis_title="Capacity by Month",
-        yaxis_title="Misconduct rate by Month"
+        xaxis_title="Percent Capacity by Month",
+        yaxis_title="Misconduct Rate by Month"
     )
     fig.show()
 
