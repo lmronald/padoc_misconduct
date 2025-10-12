@@ -11,7 +11,7 @@ Graph visualizations of misconduct and population data across SCis.
 Author: Lace Ronald
 """
 
-def all_sci_scatter_plot(misconducts, populations, year):
+def all_sci_scatter_plot(misconducts, capacity, year):
     fig = go.Figure()
     SymbolValidator = ValidatorCache.get_validator("scatter.marker", "symbol")
     raw_symbols = SymbolValidator.values
@@ -23,9 +23,9 @@ def all_sci_scatter_plot(misconducts, populations, year):
         symbols.append(raw_symbols[i])
         namestems.append(name.replace("-open", "").replace("-dot", ""))
         namevariants.append(name[len(namestems[-1]):])
-    for inst in populations:
+    for inst in capacity:
         miscon_inst = misconducts[inst]
-        pop_inst = populations[inst]
+        pop_inst = capacity[inst]
         sorted_miscon = sorted(miscon_inst)
         sorted_pop = sorted(pop_inst)
         miscon = [miscon_inst[key] for key in sorted_miscon]
@@ -44,8 +44,8 @@ def all_sci_scatter_plot(misconducts, populations, year):
         ))
     fig.update_layout(
         title="Misconduct and Population for " + year,
-        xaxis_title="Population by Month",
-        yaxis_title="Misconduct by Month"
+        xaxis_title="Capacity by Month",
+        yaxis_title="Misconduct rate by Month"
     )
     fig.show()
 

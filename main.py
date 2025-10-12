@@ -35,13 +35,4 @@ if __name__ == '__main__':
     print("Capacity: ", capacity_by_month)
     miscon_rates = miscon_rates_by_month_and_year(miscon_by_month, pop_by_month)
     print("Miscon rates: ", miscon_rates)
-
-
-
-    # for inst in pop_by_month:
-    #     # Break is on this loop for testing. Can expand to make all the graphs at once, or do a big graph with all the SCIs in one.
-    #     if miscon_by_month[inst]:
-    #         sci_bar_plot(miscon_by_month[inst], inst, '2023')
-    #     break
-    # all_sci_scatter_plot(miscon_by_month, pop_by_month, "2023")
-    #
+    all_sci_scatter_plot(miscon_rates, capacity_by_month, "2023")
