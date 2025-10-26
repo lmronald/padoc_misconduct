@@ -90,3 +90,14 @@ def sci_bar_plot(sci_miscon, sci, year):
         yaxis_title="Misconduct count"
     )
     fig.show()
+
+def sci_histogram(sci_miscon_rates, sci, year):
+    # Take dictionaries of SCI by month for population and misconduct.
+    print("SCI rates: ", sci_miscon_rates)
+    #data_rates = pd.DataFrame.from_dict(sci_miscon_rates, index=[0, 12])
+    #print("Data rates: ", data_rates)
+    fig = px.histogram( x=sci_miscon_rates.values())
+    fig.update_layout(
+        title="Misconduct for " + sci + " " + year
+    )
+    fig.show()

@@ -14,6 +14,7 @@ Author: Lace Ronald
 def miscon_by_month_and_year(data_report, month, year):
         # Use integer math to compare year and month without regarding the day.
         year_int = int(year + month)
+        # TDODO: fix this to include a range. Question: Can you add a loop/or lambda function to this .loc function?
         return data_report.loc[data_report['misconduct_date'] // 100 == year_int]
 
 def miscon_by_year(data_report, year):
@@ -71,6 +72,7 @@ def form_141_counts(data_report, sci_list, year):
     # Disciplinary custody = 801
     # Administrative custody = 802
     # Goes through the 141 counts by month.
+    # TODO: fix the bug in this that's not counting all of the misconducts.
     form_141_per_institution = {}
     for inst in sci_list:
         form_141_per_month = {}
@@ -88,9 +90,9 @@ def form_141_counts(data_report, sci_list, year):
                 print("form vals: ", data_by_month['form_141'])
                 # Why are some form values not showing despite size of month data being in the 1000+?
                 for form_val in data_by_month['form_141']:
-                    if form_val == 801:
+                    if int(form_val) == 801:
                         discp_count += 1
-                    elif form_val == 802:
+                    elif int(form_val) == 802:
                         admin_count += 1
                 form_141_per_month[month_str] = {"Disciplinary Custody": discp_count, "Administrative Custody": admin_count}
                 month += 1
