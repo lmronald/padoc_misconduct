@@ -1,6 +1,9 @@
-dbo_Miscon.csv
+dbo_Miscon.txt
 dbo_Miscon.csv_utf8.txt
 occupancy-23-24.csv
 physically-present-population-23-24.csv
+physically-present-population-23-24.csv_utf8.txt
+occupancy-23-24.csv_utf8.txt
 pop-changes-23-24.csv
 data_obj_txt
+__pycache__

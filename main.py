@@ -23,6 +23,10 @@ def main(**kwargs):
         histogram(kwargs['SCI'])
     if kwargs['function'] == 'scatter_plot':
         scatter_plot()
+    if kwargs['function'] == 'form_141':
+        form_141()
+    if kwargs['function'] == 'monthly_miscon':
+       print( monthly_miscon())
 
 def annual_miscon_rates():
     inst_miscon_report = data_report('./', MISCON)
@@ -65,6 +69,11 @@ def scatter_plot():
 def histogram(sci):
     sci_histogram(monthly_miscon_rates()[sci], sci, YEAR)
 
+def form_141():
+    inst_miscon_report_monthly = data_report('./', MISCON)
+    scis = sci_list(inst_miscon_report_monthly, 'institution')
+    return form_141_counts(inst_miscon_report_monthly, scis, YEAR)
+
 
 # Press the green button in the gutter to run the script.
 if __name__ == '__main__':
@@ -73,7 +82,7 @@ if __name__ == '__main__':
     ex: main.py FUNCTION YEAR MISCON POP CAP 
     
     TODO: create histogram based on frequency of misconducts per year by person instead
-    of averages across institution.
+    of averages across institution??
     
     TODO: update year filtering to work for multiple years/range of years.
     """
@@ -82,45 +91,12 @@ if __name__ == '__main__':
     POP = 'physically-present-population-23-24.csv'
     CAP = 'occupancy-23-24.csv'
     OCC = 'occupancy-23-24.csv'
-    
+
     main(function='histogram', SCI='ALB')
+    #
+    # main(function='scatter_plot')
 
-    main(function='scatter_plot')
+    #main(function='form_141')
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    # Form 141 Counts
-    # form_141 = form_141_counts(inst_miscon_report_monthly, sci_list, "2023")
-    # print("141 data: ", form_141)
+    #main(function='monthly_miscon')
 

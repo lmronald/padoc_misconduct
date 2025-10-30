@@ -78,8 +78,7 @@ def form_141_counts(data_report, sci_list, year):
         form_141_per_month = {}
         data_by_inst = data_report.loc[data_report['institution'] == inst]
         month = 1
-        if inst not in form_141_per_institution:
-            while month < 13:
+        while month < 13:
                 month_str = str(month)
                 if month < 10:
                     month_str = "0" + month_str
@@ -96,7 +95,8 @@ def form_141_counts(data_report, sci_list, year):
                         admin_count += 1
                 form_141_per_month[month_str] = {"Disciplinary Custody": discp_count, "Administrative Custody": admin_count}
                 month += 1
-            form_141_per_institution[inst] = form_141_per_month
+        form_141_per_institution[inst] = form_141_per_month
+    print("form 141: ", form_141_per_institution)
     return form_141_per_institution
 
 

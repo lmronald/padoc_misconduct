@@ -100,4 +100,8 @@ def sci_histogram(sci_miscon_rates, sci, year):
     fig.update_layout(
         title="Misconduct for " + sci + " " + year
     )
+    # Suggestion: Vertical line of average for all SCIs and Average for this SCI.
+    # average line and control line in code - try updating the layout.
+    # can we fix bins? Look at value to set bins on X axis as standard.
+
     fig.show()
