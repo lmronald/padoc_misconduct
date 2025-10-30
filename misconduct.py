@@ -5,6 +5,7 @@ import plotly.express as px
 #import matplotlib.pyplot as plt
 import plotly.graph_objects as go
 import codecs
+from data_report import *
 
 
 """
@@ -50,6 +51,12 @@ def miscon_per_institution_by_month_and_year(data_report, sci_list, year):
                 month += 1
             miscon_per_institution[inst] = miscon_per_month
     return miscon_per_institution
+
+def miscon_per_institution_in_date_range(data_report, start_date, end_date):
+    miscon_per_institution = {}
+    data_report['in_range'] = data_report['misconduct_date'].apply(lambda x: date_in_range(x,'int', start_date, end_date))
+    return data_report[(data_report['in_range'])]
+
 
 def miscon_rates_by_month_and_year(miscons, populations):
     # Take population and misconduct dictionaries by month and year and produce the misconduct rates for those months.

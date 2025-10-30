@@ -7,6 +7,10 @@ from capacity import *
 import os
 
 def main(**kwargs):
+    if 'date-start' in kwargs:
+        DATE_START = kwargs['date-start']
+    if 'date-end' in kwargs['date-end']:
+        DATE_END = kwargs['date-end']
     if 'year' in kwargs:
         YEAR = kwargs['year']
     if 'miscon' in kwargs:
@@ -52,6 +56,8 @@ def monthly_pop():
     del pop_by_month["WAM*"]
     return pop_by_month
 
+def date_range_miscons():
+    miscon_per_institution_in_date_range(data_report('./', MISCON), DATE_START, DATE_END)
 
 def monthly_cap():
     inst_cap_report_monthly = data_report('./', CAP)
@@ -87,13 +93,17 @@ if __name__ == '__main__':
     TODO: update year filtering to work for multiple years/range of years.
     """
     YEAR = '2023'
+    DATE_START = '01-01-2023'
+    DATE_END = '12-31-2024'
     MISCON = 'dbo_Miscon.txt'
     POP = 'physically-present-population-23-24.csv'
     CAP = 'occupancy-23-24.csv'
     OCC = 'occupancy-23-24.csv'
 
-    main(function='histogram', SCI='ALB')
-    #
+    date_range_miscons()
+
+    #main(function='histogram', SCI='ALB')
+
     # main(function='scatter_plot')
 
     #main(function='form_141')
