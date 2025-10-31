@@ -67,6 +67,70 @@ def population_per_institution_by_month_and_year(data, year):
             pop_per_institution[inst] = pop_per_month
     return pop_per_institution
 
+def population_per_institution_by_month_in_range(data_report, start_date, end_date):
+    # Ingests the population data from physically-present-population file.
+    # Outputs the institution and the average population that year.
+    inst_list = institution_list(data_report)
+    start_year = int(start_date.split('-')[2])
+    start_month = int(start_date.split('-')[0])
+    end_month = int(end_date.split('-')[0])
+    end_year = int(end_date.split('-')[2])
+    year_count = end_year - start_year
+    pop_per_institution = {}
+
+    if year_count == 0:
+        for inst in inst_list:
+            pop_per_month = {}
+            month = start_month
+            inst_data = pop_by_institution(data_report, inst)
+            while month <= end_month:
+                month_str = str(month)
+                if month < 10:
+                    month_str = "0" + month_str
+                data_by_month = pop_by_month_and_year(inst_data, month_str, start_year)
+                for monthly_pop in data_by_month['DOC Physically Present Total']:
+                    pop_per_month[month_str] = monthly_pop
+                month += 1
+            if inst == 'WAM':
+                #This institution is coded in the data with a * after it and I'm not sure why.
+                pop_per_institution[inst] = pop_per_institution['WAM*']
+            else:
+                pop_per_institution[inst] = pop_per_month
+                pop_per_month = {}
+                month = start_month
+                inst_data = pop_by_institution(data_report, inst)
+    else:
+        for inst in inst_list:
+            pop_per_month = {}
+            month = start_month
+            inst_data = pop_by_institution(data_report, inst)
+            year = start_year
+            while year != (end_year + 1):
+                month = 1
+                last_month = 12
+                if year == start_year:
+                    month = start_month
+                if year == end_year:
+                    last_month = end_month
+                while month <= last_month:
+                    month_str = str(month)
+                    if month < 10:
+                        month_str = "0" + month_str
+                    data_by_month = pop_by_month_and_year(inst_data, month_str, start_year)
+                    for monthly_pop in data_by_month['DOC Physically Present Total']:
+                        pop_per_month[month_str + "-" + year] = monthly_pop
+                    month += 1
+                if inst == 'WAM':
+                    # This institution is coded in the data with a * after it and I'm not sure why.
+                    pop_per_institution[inst] = pop_per_institution['WAM*']
+                else:
+                    pop_per_institution[inst] = pop_per_month
+                    pop_per_month = {}
+                    month = start_month
+                    inst_data = pop_by_institution(data_report, inst)
+                year += 1
+    return pop_per_institution
+
 def pop_by_institution(data, inst):
     # Filters population data to only desired institution.
     return data.loc[data['Institution'] == inst]

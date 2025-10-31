@@ -67,6 +67,11 @@ def monthly_cap():
 def monthly_miscon_rates():
     return miscon_rates_by_month_and_year(monthly_miscon(), monthly_pop())
 
+def monthly_miscon_in_range():
+    report = data_report('./', MISCON)
+    scis = sci_list(report, 'institution')
+    return miscon_per_institution_by_month_in_range(report, scis, DATE_START, DATE_END)
+
 
 def scatter_plot():
     all_sci_scatter_plot(monthly_miscon_rates(), monthly_cap(), YEAR)
@@ -100,7 +105,7 @@ if __name__ == '__main__':
     CAP = 'occupancy-23-24.csv'
     OCC = 'occupancy-23-24.csv'
 
-    date_range_miscons()
+    print("monthly over two years: ", monthly_miscon_in_range())
 
     #main(function='histogram', SCI='ALB')
 
