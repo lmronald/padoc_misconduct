@@ -61,45 +61,26 @@ def miscon_per_institution_by_month_in_range(data_report, sci_list, start_date, 
     data_for_range = data_report
     miscon_per_institution = {}
 
-    if year_count == 0:
-        for inst in sci_list:
-            miscon_per_month = {}
-            data_by_inst = data_for_range.loc[data_for_range['institution'] == inst]
-            month = start_month
-            year = start_year
-            if inst not in miscon_per_institution :
-                while month <= end_month:
-                    month_str = str(month)
-                    if month < 10:
-                        month_str = "0" + month_str
-                    data_by_month = miscon_by_month_and_year(data_by_inst, month_str, str(year))
-                    miscon_per_month[month_str + '-' + str(start_year)] = data_by_month.size
-                    month += 1
-                miscon_per_institution[inst] = miscon_per_month
-    else:
-        for inst in sci_list:
-            miscon_per_month = {}
-            data_by_inst = data_for_range.loc[data_for_range['institution'] == inst]
-            year = start_year
-            while year != (end_year + 1):
-                month = 1
-                last_month = 12
-                if year == start_year:
-                    month = start_month
-                if year == end_year:
-                    last_month = end_month
-                while month <= last_month:
-                    month_str = str(month)
-                    if month < 10:
-                        month_str = "0" + month_str
-                    print(inst, "month: ", month)
-                    data_by_month = miscon_by_month_and_year(data_by_inst, month_str, year)
-                    print(inst, "data by month: ", data_by_month)
-                    miscon_per_month[month_str + '-' + str(year)] = data_by_month.size
-                    month += 1
-                year += 1
-            miscon_per_institution[inst] = miscon_per_month
-
+    for inst in sci_list:
+        miscon_per_month = {}
+        data_by_inst = data_for_range.loc[data_for_range['institution'] == inst]
+        year = start_year
+        while year != (end_year + 1):
+            month = 1
+            last_month = 12
+            if year == start_year:
+                month = start_month
+            if year == end_year:
+                last_month = end_month
+            while month <= last_month:
+                month_str = str(month)
+                if month < 10:
+                    month_str = "0" + month_str
+                data_by_month = miscon_by_month_and_year(data_by_inst, month_str, year)
+                miscon_per_month[month_str + '-' + str(year)] = data_by_month.size
+                month += 1
+            year += 1
+        miscon_per_institution[inst] = miscon_per_month
     return miscon_per_institution
 
 def miscon_per_institution_in_date_range(data_report, start_date, end_date):
