@@ -4,6 +4,7 @@ import re
 import plotly.express as px
 import plotly.graph_objects as go
 from plotly.validator_cache import ValidatorCache
+import statistics
 
 """
 Graph visualizations of misconduct and population data across SCis.
@@ -91,17 +92,44 @@ def sci_bar_plot(sci_miscon, sci, year):
     )
     fig.show()
 
-def sci_histogram(sci_miscon_rates, sci, year):
+def sci_histogram(sci_miscon_rates, sci, global_mean, start_date, end_date):
     # Take dictionaries of SCI by month for population and misconduct.
-    print("SCI rates: ", sci_miscon_rates)
-    #data_rates = pd.DataFrame.from_dict(sci_miscon_rates, index=[0, 12])
-    #print("Data rates: ", data_rates)
     fig = px.histogram( x=sci_miscon_rates.values())
-    fig.update_layout(
-        title="Misconduct for " + sci + " " + year
+    mean = statistics.mean(sci_miscon_rates.values())
+    fig.add_vline(
+        x=3.9,
+        line_width=2,
+        line_dash='solid',
+        line_color='orange',
+        annotation={
+            'font': {
+                'size': 12,
+                'family': 'Times New Roman',
+                'color': 'black',
+            }
+        },
+        annotation_text="Average of misconduct rates across all SCIs",
+        annotation_position='top right'
     )
-    # Suggestion: Vertical line of average for all SCIs and Average for this SCI.
-    # average line and control line in code - try updating the layout.
+    fig.add_vline(
+        x=mean,
+        line_width=2,
+        line_dash='solid',
+        line_color='green',
+        annotation={
+            'font': {
+                'size': 12,
+                'family': 'Times New Roman',
+                'color': 'black',
+            }
+        },
+        annotation_text="Average of misconduct rates",
+        annotation_position='top right'
+    )
+
+    fig.update_layout(
+        title="Misconduct for " + sci + " " + start_date + " to " + end_date
+    )
     # can we fix bins? Look at value to set bins on X axis as standard.
 
     fig.show()

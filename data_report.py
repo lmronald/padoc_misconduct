@@ -1,11 +1,8 @@
 import pandas as pd
 import os
-import re
-import plotly.express as px
-#import matplotlib.pyplot as plt
-import plotly.graph_objects as go
 import codecs
 import datetime
+import statistics
 
 """
 Author: Lace Ronald
@@ -56,6 +53,15 @@ def date_in_range(target_date, target_type, start_date, end_date):
     end_date_year = int(end_date.split('-')[2])
     end = datetime.date(end_date_year, end_date_month, end_date_day)
     return start < target < end
+
+def average_rate(misconduct_rates_in_range):
+    rate_list = []
+    for sci in misconduct_rates_in_range:
+        rates = misconduct_rates_in_range[sci].values()
+        for rate in rates:
+            rate_list.append(rate)
+    print("mean: ", statistics.mean(rate_list))
+    return statistics.mean(rate_list)
 
 
 def rates_of_misconduct_per_year(misconduct, population):

@@ -66,11 +66,14 @@ def monthly_cap_in_range():
     return capacity_per_institution_by_month_in_range(inst_cap_report_monthly, scis(), DATE_START, DATE_END)
 
 def monthly_miscon_rates():
-    return miscon_rates_by_month_and_year(monthly_miscon(), monthly_pop())
+    return miscon_rates_by_month_and_year(monthly_miscon_in_range(), monthly_pop_in_range(), DATE_START, DATE_END)
 
 def monthly_miscon_in_range():
     report = data_report('./', MISCON)
     return miscon_per_institution_by_month_in_range(report, scis(), DATE_START, DATE_END)
+
+def monthly_miscon_in_range_avg_rate():
+    return average_rate(monthly_miscon_rates())
 
 def monthly_pop_in_range():
     report = data_report('./', POP)
@@ -80,7 +83,7 @@ def scatter_plot():
     all_sci_scatter_plot(monthly_miscon_in_range(), monthly_cap_in_range(), YEAR)
 
 def histogram(sci):
-    sci_histogram(monthly_miscon_in_range()[sci], sci, YEAR)
+    sci_histogram(monthly_miscon_rates()[sci], sci, monthly_miscon_in_range_avg_rate(), DATE_START, DATE_END)
 
 def form_141():
     inst_miscon_report_monthly = data_report('./', MISCON)
