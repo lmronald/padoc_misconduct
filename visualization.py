@@ -96,21 +96,21 @@ def sci_histogram(sci_miscon_rates, sci, global_mean, start_date, end_date):
     # Take dictionaries of SCI by month for population and misconduct.
     fig = px.histogram( x=sci_miscon_rates.values())
     mean = statistics.mean(sci_miscon_rates.values())
-    fig.add_vline(
-        x=3.9,
-        line_width=2,
-        line_dash='solid',
-        line_color='orange',
-        annotation={
-            'font': {
-                'size': 12,
-                'family': 'Times New Roman',
-                'color': 'black',
-            }
-        },
-        annotation_text="Average of misconduct rates across all SCIs",
-        annotation_position='top right'
-    )
+    # fig.add_vline(
+    #     x=3.9,
+    #     line_width=2,
+    #     line_dash='solid',
+    #     line_color='orange',
+    #     annotation={
+    #         'font': {
+    #             'size': 12,
+    #             'family': 'Times New Roman',
+    #             'color': 'black',
+    #         }
+    #     },
+    #     annotation_text="Average of misconduct rates across all SCIs",
+    #     annotation_position='top right'
+    # )
     fig.add_vline(
         x=mean,
         line_width=2,
