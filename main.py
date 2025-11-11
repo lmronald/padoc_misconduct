@@ -43,23 +43,8 @@ def annual_miscon_rates():
     population = population_per_institution(inst_pop_report_annual, scis(), YEAR)
     return rates_of_misconduct_per_year(misconduct, population)
 
-
-def monthly_miscon():
-    inst_miscon_report_monthly = data_report('./', MISCON)
-    return miscon_per_institution_by_month_and_year(inst_miscon_report_monthly, scis(), YEAR)
-
-
-def monthly_pop():
-    inst_pop_report_monthly = data_report('./', POP)
-    pop_by_month = population_per_institution_by_month_and_year(inst_pop_report_monthly, scis(), YEAR)
-    return pop_by_month
-
 def date_range_miscons():
     miscon_per_institution_in_date_range(data_report('./', MISCON), DATE_START, DATE_END)
-
-def monthly_cap():
-    inst_cap_report_monthly = data_report('./', CAP)
-    return capacity_per_institution_by_month_and_year(inst_cap_report_monthly, scis(), YEAR)
 
 def monthly_cap_in_range():
     inst_cap_report_monthly = data_report('./', CAP)
@@ -108,10 +93,6 @@ if __name__ == '__main__':
     POP = 'physically-present-population-23-24.csv'
     CAP = 'occupancy-23-24.csv'
     OCC = 'occupancy-23-24.csv'
-
-    print("monthly miscon over two years: ", monthly_miscon_in_range())
-    print("monthly pop over two years: ", monthly_pop_in_range())
-    print("monthly cap over two years: ", monthly_cap_in_range())
 
     main(function='histogram', SCI='ALB')
 

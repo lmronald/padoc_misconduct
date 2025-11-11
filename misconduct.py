@@ -37,23 +37,6 @@ def miscon_per_institution(data_report, year):
                         miscon_per_institution[mis_inst] += 1
         return miscon_per_institution
 
-def miscon_per_institution_by_month_and_year(data_report, sci_list, year):
-    miscon_per_institution = {}
-    for inst in sci_list:
-        miscon_per_month = {}
-        data_by_inst = data_report.loc[data_report['institution'] == inst]
-        month = 1
-        if inst not in miscon_per_institution :
-            while month < 13:
-                month_str = str(month)
-                if month < 10:
-                    month_str = "0" + month_str
-                data_by_month = miscon_by_month_and_year(data_by_inst, month_str, year)
-                miscon_per_month[month_str] = data_by_month.size
-                month += 1
-            miscon_per_institution[inst] = miscon_per_month
-    return miscon_per_institution
-
 def miscon_per_institution_by_month_in_range(data_report, sci_list, start_date, end_date):
     start_year = int(start_date.split('-')[2])
     start_month = int(start_date.split('-')[0])
@@ -87,7 +70,6 @@ def miscon_per_institution_by_month_in_range(data_report, sci_list, start_date, 
 def miscon_per_institution_in_date_range(data_report, start_date, end_date):
     data_report['in_range'] = data_report['misconduct_date'].apply(lambda x: date_in_range(x,'int', start_date, end_date))
     return data_report[(data_report['in_range'])]
-
 
 def miscon_rates_by_month_and_year(miscons, populations, start_date, end_date):
     # Take population and misconduct dictionaries by month and year and produce the misconduct rates for those months.
@@ -148,8 +130,6 @@ def form_141_counts(data_report, sci_list, year):
         form_141_per_institution[inst] = form_141_per_month
     print("form 141: ", form_141_per_institution)
     return form_141_per_institution
-
-
 
 def sci_check(data_report, sci_name, year):
     # get SCI data from a given institution and year.

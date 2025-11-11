@@ -8,27 +8,6 @@ Author: Lace Ronald
 
 """
 
-def capacity_per_institution_by_month_and_year(data, inst_list, year):
-    # Ingests the population data from physically-present-population file.
-    # Outputs the institution and the average population that year.
-    data = update_sci_names(data)
-    cap_per_institution = {}
-    for inst in inst_list:
-        cap_per_month = {}
-        month = 1
-        inst_data = cap_by_institution(data, inst)
-        while month < 13:
-            if month < 10:
-                month_str = "0" + str(month)
-            else:
-                month_str = str(month)
-            data_by_month = cap_by_month_and_year(inst_data, month_str, year)
-            for monthly_cap in data_by_month['Percent of capacity']:
-                cap_per_month[month_str] = monthly_cap
-            month += 1
-            cap_per_institution[inst] = cap_per_month
-    return cap_per_institution
-
 def capacity_per_institution_by_month_in_range(data_report, inst_list, start_date, end_date):
     # Ingests the population data from physically-present-population file.
     # Outputs the institution and the average population that year.

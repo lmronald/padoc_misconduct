@@ -52,6 +52,7 @@ def all_sci_scatter_plot(misconducts, capacity, year):
 
 def sci_scatter_plot(sci_miscon, sci_population, sci, year):
     # Take dictionaries of SCI by month for population and misconduct.
+    # TODO: Update misconduct to be based on rate.
     sorted_miscon = sorted(sci_miscon)
     sorted_pop = sorted(sci_population)
     miscon = [sci_miscon[key] for key in sorted_miscon]
@@ -94,6 +95,7 @@ def sci_bar_plot(sci_miscon, sci, year):
 
 def sci_histogram(sci_miscon_rates, sci, global_mean, start_date, end_date):
     # Take dictionaries of SCI by month for population and misconduct.
+    # TODO: fix vline and normalize x and y axis.
     fig = px.histogram( x=sci_miscon_rates.values())
     mean = statistics.mean(sci_miscon_rates.values())
     # fig.add_vline(
