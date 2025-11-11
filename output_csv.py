@@ -13,5 +13,9 @@ Columns: Date (year+month), misconduct count, misconduct rate,
         administrative custody count
 """
 
-def output_pandas(misconducts, capacity):
-    return
+def output_csv(misconducts, misconduct_rates, capacity, population):
+    columns = ['date', 'SCI', 'misconduct count', 'misconduct rate', 'percent capacity', 'population']
+    df = pd.DataFrame(misconducts)
+    print("df of miscons: ", df)
+    df = pd.DataFrame()
+    return df.to_csv
