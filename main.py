@@ -7,6 +7,10 @@ from capacity import *
 import os
 
 def main(**kwargs):
+    if 'date-start' in kwargs:
+        DATE_START = kwargs['date-start']
+    if 'date-end' in kwargs:
+        DATE_END = kwargs['date-end']
     if 'year' in kwargs:
         YEAR = kwargs['year']
     if 'miscon' in kwargs:
@@ -28,51 +32,47 @@ def main(**kwargs):
     if kwargs['function'] == 'monthly_miscon':
        print( monthly_miscon())
 
+def scis():
+    return sci_list(data_report('./', POP), 'Institution')
+
 def annual_miscon_rates():
     inst_miscon_report = data_report('./', MISCON)
     misconduct = miscon_per_institution(inst_miscon_report, YEAR)
 
     inst_pop_report_annual = data_report('./', POP)
-    population = population_per_institution(inst_pop_report_annual, YEAR)
-    # Delete misformed inst.
-    del population["WAM*"]
+    population = population_per_institution(inst_pop_report_annual, scis(), YEAR)
     return rates_of_misconduct_per_year(misconduct, population)
 
+def date_range_miscons():
+    miscon_per_institution_in_date_range(data_report('./', MISCON), DATE_START, DATE_END)
 
-def monthly_miscon():
-    inst_miscon_report_monthly = data_report('./', MISCON)
-    scis = sci_list(inst_miscon_report_monthly, 'institution')
-    return miscon_per_institution_by_month_and_year(inst_miscon_report_monthly, scis, YEAR)
-
-
-def monthly_pop():
-    inst_pop_report_monthly = data_report('./', POP)
-    pop_by_month = population_per_institution_by_month_and_year(inst_pop_report_monthly, YEAR)
-    # Delete misformed inst.
-    del pop_by_month["WAM*"]
-    return pop_by_month
-
-
-def monthly_cap():
+def monthly_cap_in_range():
     inst_cap_report_monthly = data_report('./', CAP)
-    return capacity_per_institution_by_month_and_year(inst_cap_report_monthly, YEAR)
-
+    return capacity_per_institution_by_month_in_range(inst_cap_report_monthly, scis(), DATE_START, DATE_END)
 
 def monthly_miscon_rates():
-    return miscon_rates_by_month_and_year(monthly_miscon(), monthly_pop())
+    return miscon_rates_by_month_and_year(monthly_miscon_in_range(), monthly_pop_in_range(), DATE_START, DATE_END)
 
+def monthly_miscon_in_range():
+    report = data_report('./', MISCON)
+    return miscon_per_institution_by_month_in_range(report, scis(), DATE_START, DATE_END)
+
+def monthly_miscon_in_range_avg_rate():
+    return average_rate(monthly_miscon_rates())
+
+def monthly_pop_in_range():
+    report = data_report('./', POP)
+    return population_per_institution_by_month_in_range(report, scis(), DATE_START, DATE_END)
 
 def scatter_plot():
-    all_sci_scatter_plot(monthly_miscon_rates(), monthly_cap(), YEAR)
-
+    all_sci_scatter_plot(monthly_miscon_in_range(), monthly_cap_in_range(), YEAR)
 
 def histogram(sci):
-    sci_histogram(monthly_miscon_rates()[sci], sci, YEAR)
+    sci_histogram(monthly_miscon_rates()[sci], sci, monthly_miscon_in_range_avg_rate(), DATE_START, DATE_END)
 
 def form_141():
     inst_miscon_report_monthly = data_report('./', MISCON)
-    scis = sci_list(inst_miscon_report_monthly, 'institution')
-    return form_141_counts(inst_miscon_report_monthly, scis, YEAR)
+    return form_141_counts(inst_miscon_report_monthly, scis(), YEAR)
 
 
 # Press the green button in the gutter to run the script.
@@ -87,14 +87,16 @@ if __name__ == '__main__':
     TODO: update year filtering to work for multiple years/range of years.
     """
     YEAR = '2023'
+    DATE_START = '01-01-2023'
+    DATE_END = '12-31-2024'
     MISCON = 'dbo_Miscon.txt'
     POP = 'physically-present-population-23-24.csv'
     CAP = 'occupancy-23-24.csv'
     OCC = 'occupancy-23-24.csv'
 
     main(function='histogram', SCI='ALB')
-    #
-    # main(function='scatter_plot')
+
+    main(function='scatter_plot')
 
     #main(function='form_141')
 

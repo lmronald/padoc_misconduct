@@ -5,15 +5,18 @@ import plotly.express as px
 #import matplotlib.pyplot as plt
 import plotly.graph_objects as go
 import codecs
+import statistics
+from data_report import *
 
 
 """
 Author: Lace Ronald
     
 """
+
 def miscon_by_month_and_year(data_report, month, year):
         # Use integer math to compare year and month without regarding the day.
-        year_int = int(year + month)
+        year_int = int(year)*100 + int(month)
         # TDODO: fix this to include a range. Question: Can you add a loop/or lambda function to this .loc function?
         return data_report.loc[data_report['misconduct_date'] // 100 == year_int]
 
@@ -34,38 +37,67 @@ def miscon_per_institution(data_report, year):
                         miscon_per_institution[mis_inst] += 1
         return miscon_per_institution
 
-def miscon_per_institution_by_month_and_year(data_report, sci_list, year):
+def miscon_per_institution_by_month_in_range(data_report, sci_list, start_date, end_date):
+    start_year = int(start_date.split('-')[2])
+    start_month = int(start_date.split('-')[0])
+    end_month = int(end_date.split('-')[0])
+    end_year = int(end_date.split('-')[2])
+    data_for_range = data_report
     miscon_per_institution = {}
+
     for inst in sci_list:
         miscon_per_month = {}
-        data_by_inst = data_report.loc[data_report['institution'] == inst]
-        month = 1
-        if inst not in miscon_per_institution :
-            while month < 13:
+        data_by_inst = data_for_range.loc[data_for_range['institution'] == inst]
+        year = start_year
+        while year != (end_year + 1):
+            month = 1
+            last_month = 12
+            if year == start_year:
+                month = start_month
+            if year == end_year:
+                last_month = end_month
+            while month <= last_month:
                 month_str = str(month)
                 if month < 10:
                     month_str = "0" + month_str
                 data_by_month = miscon_by_month_and_year(data_by_inst, month_str, year)
-                miscon_per_month[month_str] = data_by_month.size
+                miscon_per_month[month_str + '-' + str(year)] = data_by_month.size
                 month += 1
-            miscon_per_institution[inst] = miscon_per_month
+            year += 1
+        miscon_per_institution[inst] = miscon_per_month
     return miscon_per_institution
 
-def miscon_rates_by_month_and_year(miscons, populations):
+def miscon_per_institution_in_date_range(data_report, start_date, end_date):
+    data_report['in_range'] = data_report['misconduct_date'].apply(lambda x: date_in_range(x,'int', start_date, end_date))
+    return data_report[(data_report['in_range'])]
+
+def miscon_rates_by_month_and_year(miscons, populations, start_date, end_date):
     # Take population and misconduct dictionaries by month and year and produce the misconduct rates for those months.
+    start_year = int(start_date.split('-')[2])
+    start_month = int(start_date.split('-')[0])
+    end_month = int(end_date.split('-')[0])
+    end_year = int(end_date.split('-')[2])
     rates = {}
-    for sci in populations:
-        monthly_rate = {}
-        sci_miscons = miscons[sci]
-        sci_pops = populations[sci]
-        month = 1
-        while month < 13:
-            month_str = str(month)
-            if month < 10:
-                month_str = "0" + str(month)
-            monthly_rate[month_str] = sci_miscons[month_str]/sci_pops[month_str]
-            month += 1
-        rates[sci] = monthly_rate
+    year = start_year
+    while year != (end_year + 1):
+        for sci in populations:
+            month = 1
+            last_month = 12
+            if year == start_year:
+                month = start_month
+            if year == end_year:
+                last_month = end_month
+            monthly_rate = {}
+            sci_miscons = miscons[sci]
+            sci_pops = populations[sci]
+            while month < 13:
+                month_str = str(month)
+                if month < 10:
+                    month_str = "0" + str(month)
+                monthly_rate[month_str + '-' + str(year)] = (sci_miscons[month_str + '-' + str(year)]/sci_pops[month_str + '-' + str(year)])
+                month += 1
+            rates[sci] = monthly_rate
+        year += 1
     return rates
 
 def form_141_counts(data_report, sci_list, year):
@@ -98,8 +130,6 @@ def form_141_counts(data_report, sci_list, year):
         form_141_per_institution[inst] = form_141_per_month
     print("form 141: ", form_141_per_institution)
     return form_141_per_institution
-
-
 
 def sci_check(data_report, sci_name, year):
     # get SCI data from a given institution and year.

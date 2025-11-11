@@ -13,3 +13,5 @@ Columns: Date (year+month), misconduct count, misconduct rate,
         administrative custody count
 """
 
+def output_pandas(misconducts, capacity):
+    return
