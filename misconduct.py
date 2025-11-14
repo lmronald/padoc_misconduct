@@ -78,16 +78,16 @@ def miscon_rates_by_month_and_year(miscons, populations, start_date, end_date):
     end_month = int(end_date.split('-')[0])
     end_year = int(end_date.split('-')[2])
     rates = {}
-    year = start_year
-    while year != (end_year + 1):
-        for sci in populations:
+    for sci in populations:
+        monthly_rate = {}
+        year = start_year
+        while year != (end_year + 1):
             month = 1
             last_month = 12
             if year == start_year:
                 month = start_month
             if year == end_year:
                 last_month = end_month
-            monthly_rate = {}
             sci_miscons = miscons[sci]
             sci_pops = populations[sci]
             while month < 13:
@@ -96,8 +96,8 @@ def miscon_rates_by_month_and_year(miscons, populations, start_date, end_date):
                     month_str = "0" + str(month)
                 monthly_rate[month_str + '-' + str(year)] = (sci_miscons[month_str + '-' + str(year)]/sci_pops[month_str + '-' + str(year)])
                 month += 1
-            rates[sci] = monthly_rate
-        year += 1
+            year += 1
+        rates[sci] = monthly_rate
     return rates
 
 def form_141_counts(data_report, sci_list, year):
