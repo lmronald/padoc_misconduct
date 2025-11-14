@@ -72,12 +72,8 @@ def histogram(sci):
     sci_histogram(monthly_miscon_rates()[sci], sci, monthly_miscon_in_range_avg_rate(), DATE_START, DATE_END)
 
 def output():
-    print("Monthly cap in range: ", monthly_cap_in_range())
-    print("Monthly pop in range: ", monthly_pop_in_range())
-    print("Monthly miscons in range: ", monthly_miscon_in_range())
-    print("Miscon rates: ", monthly_miscon_rates())
-    return output_csv(monthly_miscon_in_range(), monthly_miscon_rates(),
-                      monthly_cap_in_range(), monthly_pop_in_range())
+    return output_csv(scis(), monthly_miscon_in_range(), monthly_miscon_rates(),
+                      monthly_cap_in_range(), monthly_pop_in_range(), DATE_START, DATE_END, './output')
 
 def form_141():
     inst_miscon_report_monthly = data_report('./', MISCON)
@@ -103,11 +99,17 @@ if __name__ == '__main__':
     CAP = 'occupancy-23-24.csv'
     OCC = 'occupancy-23-24.csv'
 
-    print("Monthly cap in range: ", monthly_cap_in_range())
-    print("Monthly pop in range: ", monthly_pop_in_range())
-    print("Monthly miscons in range: ", monthly_miscon_in_range())
-    print("Miscon rates: ", monthly_miscon_rates())
-    print(output())
+    cap = monthly_cap_in_range()
+    pop = monthly_pop_in_range()
+    miscs = monthly_miscon_in_range()
+    miscs_rate = monthly_miscon_rates()
+
+    print("cap: ", cap)
+    print("pop: ", pop)
+
+    print("cap for ALB in Jan: ", cap['ALB']['01-2023'])
+    print("output: ", output())
+
 
     # main(function='histogram', SCI='ALB')
     #
