@@ -5,16 +5,10 @@ import os
 Author: Lace Ronald
 
 File that takes dictionary objects on population, capacity, and misconduct then produces a reusable CSV file.
-
-Data format:
-Rows - SCI
-Columns: Date (year+month), misconduct count, misconduct rate, 
-        population, capacity, percent capacity, disciplinary custody count,
-        administrative custody count
 """
 
-def output_csv(sci_list, misconducts, misconduct_rates, capacity, population, start_date, end_date, out_path):
-    columns = ['date', 'SCI', 'misconduct count', 'misconduct rate', 'percent capacity', 'population']
+def output_csv(sci_list, misconducts, misconduct_rates, capacity, population, ac_status, dc_status, start_date, end_date, out_path):
+    columns = ['Date', 'SCI', 'Misconduct Count', 'Misconduct Rate', 'Percent capacity', 'Population', 'Restricted Housing AC', 'Restricted Housing DC']
     rows = {}
     start_year = int(start_date.split('-')[2])
     start_month = int(start_date.split('-')[0])
@@ -32,14 +26,13 @@ def output_csv(sci_list, misconducts, misconduct_rates, capacity, population, st
             month_str = "0" + str(month) if month < 10 else str(month)
             date = month_str + "-" + str(year)
             for sci in sci_list:
-                print("SCI: ", sci, " ", date)
                 rows[date + ' ' + sci] = [date, sci, str(misconducts[sci][date]),
                                                   str(misconduct_rates[sci][date]),
-                                                  str(capacity[sci][date]), str(population[sci][date])]
+                                                  str(capacity[sci][date]), str(population[sci][date]),
+                                                    str(ac_status[sci][date]), str(dc_status[sci][date])]
             month += 1
         year += 1
     df = pd.DataFrame.from_dict(rows, orient='index', columns=columns)
-    print("data frame for CSV: ", df)
     os.makedirs(out_path, exist_ok=True)
     return df.to_csv(out_path + "/miscon_with_pop.csv")
 
