@@ -6,4 +6,7 @@ physically-present-population-23-24.csv_utf8.txt
 occupancy-23-24.csv_utf8.txt
 pop-changes-23-24.csv
 data_obj_txt
+data_files
+output
+.idea
 __pycache__
