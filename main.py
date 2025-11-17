@@ -103,12 +103,7 @@ if __name__ == '__main__':
     miscs = monthly_miscon_in_range()
     miscs_rate = monthly_miscon_rates()
 
-    print("cap: ", cap)
-    print("pop: ", pop)
-
-    print("cap for ALB in Jan: ", cap['ALB']['01-2023'])
     print("output: ", output())
-
 
     # main(function='histogram', SCI='ALB')
     #
