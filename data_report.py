@@ -6,18 +6,10 @@ import statistics
 
 """
 Author: Lace Ronald
-    
-Re-use of this code is permitted under the MIT license. Property of Bucknell University.
 
 This file includes basic functions for generating data objects from csv.
-
-Future work here will include visualization functions for data objects.
     
 """
-
-# def write_file(obj_dict):
-#   Create a function here that will consume a python dictionary and output a csv file for easy read.
-
 
 def data_report(dirname, filename):
     # Used to verify data is well-formed.

@@ -13,8 +13,6 @@ Author: Lace Ronald
 
 This file breaks down the population data for visualization. 
 
-Separate from the occupancy data, but may not be useful for final data visualization.
-
 """
 
 def population_per_institution(data, inst_list, year):
