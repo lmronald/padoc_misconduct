@@ -103,13 +103,11 @@ if __name__ == '__main__':
     miscs = monthly_miscon_in_range()
     miscs_rate = monthly_miscon_rates()
 
-    print("output: ", output())
+    output()
 
-    # main(function='histogram', SCI='ALB')
-    #
-    # main(function='scatter_plot')
+    main(function='histogram', SCI='ALB')
+    main(function='histogram', SCI='BEN')
+    main(function='histogram', SCI='CBS')
 
-    #main(function='form_141')
 
-    #main(function='monthly_miscon')
 
