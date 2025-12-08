@@ -141,7 +141,7 @@ def sci_histogram(sci_miscon_rates, sci, global_mean, start_date, end_date):
         title="Misconduct for " + sci + " " + start_date + " to " + end_date
     )
 
-    fig.show()
+    return fig
 
 def histogram_matplotlib(sci_miscon_rates, sci, global_mean, start_date, end_date):
     counts, bins = np.histogram(list(sci_miscon_rates.values()))
