@@ -2,9 +2,10 @@
 from dash import Dash, html, dcc, Input, Output
 import plotly.express as px
 import pandas as pd
+from matplotlib.pyplot import figure
+
 from visualization import *
 from data_report import *
-# Main function for running data processing
 from data_report import *
 from misconduct import *
 from population import *
@@ -46,15 +47,28 @@ df = data_report('./output', 'miscon_with_pop.csv')
 
 app = Dash(__name__)
 
+sci_graph_list= scis()
+
+# histogram_dict = {}
+# for sci in sci_graph_list:
+#     histogram_dict[sci] = histogram(sci)
+
 app.layout = html.Div([
     html.H1('Misconduct Rates'),
-    dcc.Graph(figure=histogram('ALB'))
+    dcc.Dropdown(id='sci-select',
+                 options=sci_graph_list,
+                 value=sci_graph_list[0],
+                 clearable=False),
+    dcc.Graph(id='histogram', figure=histogram(sci_graph_list[0]))
 ])
 
-# @app.callback(
-#     Output("graph", "figure"),
-#     Input("dropdown", "value")
-# )
+@app.callback(
+    Output("histogram", "figure"),
+    Input("sci-select", "value")
+)
+def update_histogram(input_value):
+    return histogram(input_value)
+
 
 if __name__ == '__main__':
     app.run(debug=True)
