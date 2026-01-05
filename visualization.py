@@ -101,8 +101,11 @@ def sci_histogram(sci_miscon_rates, sci, global_mean, start_date, end_date):
     # fig = go.Figure()
     # fig.add_trace(go.Histogram(x=list(sci_miscon_rates.values()), orientation='v'))
     counts, bins = np.histogram(list(sci_miscon_rates.values()))
+    print("np bins: ", bins)
+    # bins = dict(start=0, end=10, size=2)
+    # print("dict bins: ", bins)
     bins = 0.5 * (bins[:-1] + bins[1:])
-
+    print("np bins: ", bins)
 
     fig = px.bar(x=bins, y=counts, labels={'x': 'Monthly misconduct average rate', 'y': 'count'})
     mean = statistics.mean(list(sci_miscon_rates.values()))
