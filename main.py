@@ -47,11 +47,11 @@ def monthly_cap_in_range():
     return capacity_per_institution_by_month_in_range(inst_cap_report_monthly, scis(), DATE_START, DATE_END)
 
 def monthly_miscon_rates():
-    return miscon_rates_by_month_and_year(monthly_miscon_in_range(), monthly_pop_in_range(), DATE_START, DATE_END)
+    return miscon_rates_by_month_and_year(monthly_miscon_in_range(), monthly_pop_in_range(), DATE_START, DATE_END, FILTER_BY_CHG)
 
 def monthly_miscon_in_range():
     report = data_report('./data_files', MISCON)
-    return miscon_per_institution_by_month_in_range(report, scis(), DATE_START, DATE_END)
+    return miscon_per_institution_by_month_in_range(report, scis(), DATE_START, DATE_END, FILTER_BY_CHG)
 
 def monthly_miscon_in_range_avg_rate():
     return average_rate(monthly_miscon_rates())
@@ -94,6 +94,7 @@ if __name__ == '__main__':
     DATE_START = '01-01-2023'
     DATE_END = '12-31-2024'
     MISCON = 'dbo_Miscon.txt'
+    FILTER_BY_CHG = 'TRUE'
     POP = 'physically-present-population-23-24.csv'
     CAP = 'occupancy-23-24.csv'
     OCC = 'occupancy-23-24.csv'

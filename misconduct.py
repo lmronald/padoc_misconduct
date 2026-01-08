@@ -37,7 +37,7 @@ def miscon_per_institution(data_report, year):
                         miscon_per_institution[mis_inst] += 1
         return miscon_per_institution
 
-def miscon_per_institution_by_month_in_range(data_report, sci_list, start_date, end_date):
+def miscon_per_institution_by_month_in_range(data_report, sci_list, start_date, end_date, filter_by_msg):
     start_year = int(start_date.split('-')[2])
     start_month = int(start_date.split('-')[0])
     end_month = int(end_date.split('-')[0])
@@ -61,11 +61,27 @@ def miscon_per_institution_by_month_in_range(data_report, sci_list, start_date, 
                 if month < 10:
                     month_str = "0" + month_str
                 data_by_month = miscon_by_month_and_year(data_by_inst, month_str, year)
+                if filter_by_msg:
+                    filter_msg(data_by_month)
                 miscon_per_month[month_str + '-' + str(year)] = data_by_month.size
                 month += 1
             year += 1
         miscon_per_institution[inst] = miscon_per_month
     return miscon_per_institution
+
+def filter_msg(data_by_month):
+    # TODO: test that this actually works and update the size value to match this count when filtering.
+    mischg_data = data_report('./data_files', 'dbo_Mischg.txt')
+    # check misconduct numbers for entry in mischg
+    # mischg = miscndct_number
+    # miscon = misconduct_number
+    charge_count = 0
+    for miscon_number in data_by_month['misconduct_number']:
+        if miscon_number in mischg_data['miscndct_number']:
+            # if the misconduct number has a corresponding charge then count it.
+            charge_count += 1
+    return charge_count
+
 
 def miscon_per_institution_in_date_range(data_report, start_date, end_date):
     data_report['in_range'] = data_report['misconduct_date'].apply(lambda x: date_in_range(x,'int', start_date, end_date))
