@@ -62,8 +62,9 @@ def miscon_per_institution_by_month_in_range(data_report, sci_list, start_date, 
                     month_str = "0" + month_str
                 data_by_month = miscon_by_month_and_year(data_by_inst, month_str, year)
                 if filter_by_msg:
-                    filter_msg(data_by_month)
-                miscon_per_month[month_str + '-' + str(year)] = data_by_month.size
+                    miscon_per_month[month_str + '-' + str(year)] = filter_msg(data_by_month)
+                else:
+                    miscon_per_month[month_str + '-' + str(year)] = data_by_month.size
                 month += 1
             year += 1
         miscon_per_institution[inst] = miscon_per_month
@@ -75,11 +76,16 @@ def filter_msg(data_by_month):
     # check misconduct numbers for entry in mischg
     # mischg = miscndct_number
     # miscon = misconduct_number
+    # df['ID'].isin([target_id]).any()
     charge_count = 0
     for miscon_number in data_by_month['misconduct_number']:
-        if miscon_number in mischg_data['miscndct_number']:
+        print("misconduct number: ", str(miscon_number))
+        print("mischarge data:", mischg_data['miscndct_number'])
+        print("Check id: ", mischg_data['miscndct_number'].isin([str(miscon_number)]).any())
+        if mischg_data['miscndct_number'].isin([str(miscon_number)]).any():
             # if the misconduct number has a corresponding charge then count it.
             charge_count += 1
+    print("Charge count: ", charge_count)
     return charge_count
 
 
