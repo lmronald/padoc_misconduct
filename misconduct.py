@@ -67,6 +67,19 @@ def miscon_per_institution_by_month_in_range(data_report, sci_list, start_date, 
         miscon_per_institution[inst] = miscon_per_month
     return miscon_per_institution
 
+def check_control(data_report):
+    # Based on control number of misconduct. Look for misconducts within the same hour that have the same number and collapse them.
+    control_num_dict = {'date':[], 'misconduct_nums':[],  'control_number':[], 'institution':[]}
+    for index, misconduct in data_report.iterrows():
+        control_num = misconduct['control_number']
+        print("Control num: ", control_num)
+        filter_control = data_report.loc[data_report['control_number'] == control_num]
+        set_on_date = filter_control.loc[filter_control['misconduct_date'] == misconduct['misconduct_date']]
+        print("set on date with control set: ", set_on_date)
+        break
+    return data_report
+
+
 def miscon_per_institution_in_date_range(data_report, start_date, end_date):
     data_report['in_range'] = data_report['misconduct_date'].apply(lambda x: date_in_range(x,'int', start_date, end_date))
     return data_report[(data_report['in_range'])]

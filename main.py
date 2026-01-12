@@ -40,7 +40,7 @@ def annual_miscon_rates():
     return rates_of_misconduct_per_year(misconduct, population)
 
 def date_range_miscons():
-    miscon_per_institution_in_date_range(data_report('./data_files', MISCON), DATE_START, DATE_END)
+    return miscon_per_institution_in_date_range(data_report('./data_files', MISCON), DATE_START, DATE_END)
 
 def monthly_cap_in_range():
     inst_cap_report_monthly = data_report('./data_files', CAP)
@@ -103,7 +103,9 @@ if __name__ == '__main__':
     miscs = monthly_miscon_in_range()
     miscs_rate = monthly_miscon_rates()
 
-    print("output: ", output())
+    #print("output: ", output())
+
+    check_control(date_range_miscons())
 
     # main(function='histogram', SCI='ALB')
     #
