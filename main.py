@@ -105,7 +105,18 @@ if __name__ == '__main__':
 
     #print("output: ", output())
 
-    check_control(date_range_miscons())
+    controled_ALB = check_control(date_range_miscons(), 'ALB')
+    #print("Control list: ", controled_ALB)
+    print("Num of miscons in control for ALB: ", len(controled_ALB))
+    more_than_one_list = []
+    for entry, miscons in controled_ALB.items():
+        if len(miscons) > 1:
+            more_than_one_list.append((miscons, len(miscons)))
+    print("List with more than one size: ", len(more_than_one_list))
+
+
+
+
 
     # main(function='histogram', SCI='ALB')
     #
