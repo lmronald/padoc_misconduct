@@ -105,14 +105,31 @@ if __name__ == '__main__':
 
     #print("output: ", output())
 
+    misconduct_controlled_counts = {}
+    # for sci in scis():
+    #     control = check_control(date_range_miscons(), sci)
+    #     misconduct_controlled_counts[sci] = len(control)
+    # print("Controlled counts: ", misconduct_controlled_counts)
+
+    output_dict = {'ALB': 5151, 'BEN': 3247, 'CBS': 898, 'CAM': 2922, 'CHS': 2091, 'COA': 4010, 'DAL': 3384,
+                   'FYT': 3483, 'FRS': 5111, 'FRA': 1827, 'GRN': 4087, 'HOU': 3894, 'HUN': 5230, 'LAU': 1143,
+                   'MAH': 3141, 'MER': 1000, 'MUN': 1843, 'PHX': 5899, 'PNG': 2833, 'QUE': 33, 'ROC': 3540, 'SMI': 2230,
+                   'SMR': 4165, 'WAM': 914}
+
+
+    # test to check ALB numbers
     controled_ALB = check_control(date_range_miscons(), 'ALB')
-    #print("Control list: ", controled_ALB)
-    print("Num of miscons in control for ALB: ", len(controled_ALB))
-    more_than_one_list = []
-    for entry, miscons in controled_ALB.items():
-        if len(miscons) > 1:
-            more_than_one_list.append((miscons, len(miscons)))
-    print("List with more than one size: ", len(more_than_one_list))
+    print("Control dict: ", controled_ALB)
+    print("Size of control with times: ", len(controled_ALB.keys()))
+    # more_than_one_list = []
+    # for entry, miscons in controled_ALB.items():
+    #     if len(miscons) > 1:
+    #         more_than_one_list.append((miscons, len(miscons)))
+    #         # times_list = []
+    #         # for index, miscon_entry in miscons.iterrows():
+    #         #     times_list.append(miscon_entry['misconduct_time'])
+    #         # print("Times: ", times_list)
+    # print("List with more than one size: ", len(more_than_one_list))
 
 
 
