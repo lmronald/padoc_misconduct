@@ -106,21 +106,35 @@ if __name__ == '__main__':
     #print("output: ", output())
 
     misconduct_controlled_counts = {}
-    # for sci in scis():
-    #     control = check_control(date_range_miscons(), sci)
-    #     misconduct_controlled_counts[sci] = len(control)
-    # print("Controlled counts: ", misconduct_controlled_counts)
+    misconduct_uncontrolled_counts = {}
+    for sci in scis():
+        miscons = date_range_miscons()
+        control, uncontrolled_count = check_control(miscons, sci)
+        misconduct_uncontrolled_counts[sci] = uncontrolled_count
+        misconduct_controlled_counts[sci] = len(control)
+    print("Controlled counts: ", misconduct_controlled_counts)
+    print("No controll counts: ", misconduct_uncontrolled_counts)
 
-    output_dict = {'ALB': 5151, 'BEN': 3247, 'CBS': 898, 'CAM': 2922, 'CHS': 2091, 'COA': 4010, 'DAL': 3384,
+    output_dict_no_hour_control= {'ALB': 5151, 'BEN': 3247, 'CBS': 898, 'CAM': 2922, 'CHS': 2091, 'COA': 4010, 'DAL': 3384,
                    'FYT': 3483, 'FRS': 5111, 'FRA': 1827, 'GRN': 4087, 'HOU': 3894, 'HUN': 5230, 'LAU': 1143,
                    'MAH': 3141, 'MER': 1000, 'MUN': 1843, 'PHX': 5899, 'PNG': 2833, 'QUE': 33, 'ROC': 3540, 'SMI': 2230,
                    'SMR': 4165, 'WAM': 914}
 
+    controlled_counts_reduced_for_hour = {'ALB': 5554, 'BEN': 3415, 'CBS': 952, 'CAM': 3067, 'CHS': 2264, 'COA': 4246,
+                                          'DAL': 3627, 'FYT': 3650, 'FRS': 5496, 'FRA': 1918, 'GRN': 4281, 'HOU': 4107,
+                                          'HUN': 5589, 'LAU': 1195, 'MAH': 3355, 'MER': 1050,'MUN': 1960, 'PHX': 6244,
+                                          'PNG': 3043, 'QUE': 36, 'ROC': 3748, 'SMI': 2329, 'SMR': 4462, 'WAM': 952}
+
+    miscon_counts_not_controlled = {'ALB': 259380, 'BEN': 158048, 'CBS': 45496, 'CAM': 142956, 'CHS': 105732, 'COA': 196636,
+                                    'DAL': 165220, 'FYT': 170500, 'FRS': 264308, 'FRA': 87736, 'GRN': 197384, 'HOU': 193204,
+                                    'HUN': 258016, 'LAU': 55572, 'MAH': 154132, 'MER': 48884, 'MUN': 91520, 'PHX': 289696,
+                                    'PNG': 144716, 'QUE': 1496, 'ROC': 173844, 'SMI': 105644, 'SMR': 206272, 'WAM': 43868}
+
 
     # test to check ALB numbers
-    controled_ALB = check_control(date_range_miscons(), 'ALB')
-    print("Control dict: ", controled_ALB)
-    print("Size of control with times: ", len(controled_ALB.keys()))
+    # controled_ALB = check_control(date_range_miscons(), 'ALB')
+    # print("Control dict: ", controled_ALB)
+    # print("Size of control with times: ", len(controled_ALB.keys()))
     # more_than_one_list = []
     # for entry, miscons in controled_ALB.items():
     #     if len(miscons) > 1:
