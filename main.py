@@ -32,6 +32,9 @@ def main(**kwargs):
 def scis():
     return sci_list(data_report('./data_files', POP), 'Institution')
 
+def scis_check():
+    return sci_list(data_report('./data_files', MISCON), 'institution')
+
 def annual_miscon_rates():
     inst_miscon_report = data_report('./data_files', MISCON)
     misconduct = miscon_per_institution(inst_miscon_report, YEAR)
@@ -98,22 +101,33 @@ if __name__ == '__main__':
     CAP = 'occupancy-23-24.csv'
     OCC = 'occupancy-23-24.csv'
 
-    cap = monthly_cap_in_range()
-    pop = monthly_pop_in_range()
-    miscs = monthly_miscon_in_range()
-    miscs_rate = monthly_miscon_rates()
+    # cap = monthly_cap_in_range()
+    # pop = monthly_pop_in_range()
+    #miscs = monthly_miscon_in_range()
+    #miscs_rate = monthly_miscon_rates()
 
     #print("output: ", output())
 
-    misconduct_controlled_counts = {}
-    misconduct_uncontrolled_counts = {}
+    # misconduct_controlled_counts = {}
+    # misconduct_uncontrolled_counts = {}
+    # for sci in scis():
+    #     miscons = date_range_miscons()
+    #     control, uncontrolled_count = check_control(miscons, sci)
+    #     misconduct_uncontrolled_counts[sci] = uncontrolled_count
+    #     misconduct_controlled_counts[sci] = len(control)
+    # print("Controlled counts: ", misconduct_controlled_counts)
+    # print("No controll counts: ", misconduct_uncontrolled_counts)
+
+    total_miscon_check = {}
+    miscons = date_range_miscons()
+    year1 = miscon_per_institution( data_report('./data_files', MISCON), 2023)
+    print("2023: ", year1)
+    year2 = miscon_per_institution( data_report('./data_files', MISCON), 2024)
     for sci in scis():
-        miscons = date_range_miscons()
-        control, uncontrolled_count = check_control(miscons, sci)
-        misconduct_uncontrolled_counts[sci] = uncontrolled_count
-        misconduct_controlled_counts[sci] = len(control)
-    print("Controlled counts: ", misconduct_controlled_counts)
-    print("No controll counts: ", misconduct_uncontrolled_counts)
+        total_miscon_check[sci] = year1[sci]+year2[sci]
+
+    print('total check: ', total_miscon_check)
+
 
     output_dict_no_hour_control= {'ALB': 5151, 'BEN': 3247, 'CBS': 898, 'CAM': 2922, 'CHS': 2091, 'COA': 4010, 'DAL': 3384,
                    'FYT': 3483, 'FRS': 5111, 'FRA': 1827, 'GRN': 4087, 'HOU': 3894, 'HUN': 5230, 'LAU': 1143,
@@ -131,23 +145,32 @@ if __name__ == '__main__':
                                     'PNG': 144716, 'QUE': 1496, 'ROC': 173844, 'SMI': 105644, 'SMR': 206272, 'WAM': 43868}
 
 
-    # test to check ALB numbers
-    # controled_ALB = check_control(date_range_miscons(), 'ALB')
-    # print("Control dict: ", controled_ALB)
-    # print("Size of control with times: ", len(controled_ALB.keys()))
-    # more_than_one_list = []
-    # for entry, miscons in controled_ALB.items():
-    #     if len(miscons) > 1:
-    #         more_than_one_list.append((miscons, len(miscons)))
-    #         # times_list = []
-    #         # for index, miscon_entry in miscons.iterrows():
-    #         #     times_list.append(miscon_entry['misconduct_time'])
-    #         # print("Times: ", times_list)
-    # print("List with more than one size: ", len(more_than_one_list))
+
+    #
+    # print("total misconduct count for 2023: ", miscon_by_year(data_report('./data_files', MISCON), '2023').size)
+    # print("total misconduct count for 2024: ", miscon_by_year(data_report('./data_files', MISCON), '2024').size)
+    print("Miscon sci list: ", scis_check())
+
+    extra_miscon_scis = ['PIT', 'CRE', 'GRA', 'GRE', 'RET', 'WAY', '129', '756', '104', '136', '201', '117', '203', '116',
+                         '131', '109', '102', '305', '106', '319', '124', '119', '225', '127', '209', '313', '135', '231',
+                         '304', '303', '317', '204', '133', '126', '999']
+
+    extra_counts = {'PIT': 0, 'CRE': 0, 'GRA': 0, 'GRE': 0, 'RET': 0, 'WAY': 0, '129': 0, '756': 0, '104': 0, '136': 0,
+             '201': 0, '117': 0, '203': 0, '116': 0, '131': 0, '109': 0, '102': 0, '305': 0, '106': 0, '319': 0,
+             '124': 0, '119': 0, '225': 0, '127': 0, '209': 0, '313': 0, '135': 0, '231': 0, '304': 0, '303': 0,
+             '317': 0, '204': 0, '133': 0, '126': 0, '999': 0}
 
 
-
-
+    # ex_misconduct_controlled_counts = {}
+    # ex_misconduct_uncontrolled_counts = {}
+    # miscons = date_range_miscons()
+    # for sci in extra_miscon_scis:
+    #     print("SCI: ", sci)
+    #     control, uncontrolled_count = check_control(miscons, sci)
+    #     ex_misconduct_uncontrolled_counts[sci] = uncontrolled_count
+    #     ex_misconduct_controlled_counts[sci] = len(control)
+    # print("Controlled counts: ", ex_misconduct_controlled_counts)
+    # print("No controll counts: ", ex_misconduct_uncontrolled_counts)
 
     # main(function='histogram', SCI='ALB')
     #

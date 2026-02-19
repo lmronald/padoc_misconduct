@@ -16,8 +16,8 @@ Author: Lace Ronald
 
 def miscon_by_month_and_year(data_report, month, year):
         # Use integer math to compare year and month without regarding the day.
-        year_int = int(year)*100 + int(month)
-        return data_report.loc[data_report['misconduct_date'] // 100 == year_int]
+        date_int = int(year)*100 + int(month)
+        return data_report.loc[data_report['misconduct_date'] // 100 == date_int]
 
 def miscon_by_year(data_report, year):
         # Applies a filter variable to each entry with the desired year.
@@ -30,6 +30,7 @@ def miscon_per_institution(data_report, year):
         filtered_data = miscon_by_year(data_report, year)
         miscon_per_institution = {}
         for mis_inst in filtered_data['institution']:
+                print('institution: ', mis_inst)
                 if mis_inst not in miscon_per_institution:
                         miscon_per_institution[mis_inst] = 1
                 else:
