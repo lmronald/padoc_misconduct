@@ -108,31 +108,31 @@ if __name__ == '__main__':
 
     #print("output: ", output())
 
-    # misconduct_controlled_counts = {}
-    # misconduct_uncontrolled_counts = {}
-    # for sci in scis():
-    #     miscons = date_range_miscons()
-    #     control, uncontrolled_count = check_control(miscons, sci)
-    #     misconduct_uncontrolled_counts[sci] = uncontrolled_count
-    #     misconduct_controlled_counts[sci] = len(control)
-    # print("Controlled counts: ", misconduct_controlled_counts)
-    # print("No controll counts: ", misconduct_uncontrolled_counts)
+    misconduct_controlled_counts = {}
+    misconduct_uncontrolled_counts = {}
+    miscons = date_range_miscons()
+    for sci in scis():
+        control, uncontrolled_count = check_control(miscons, sci)
+        misconduct_uncontrolled_counts[sci] = uncontrolled_count
+        misconduct_controlled_counts[sci] = control
+    print("Controlled counts: ", misconduct_controlled_counts)
+    print("No controll counts: ", misconduct_uncontrolled_counts)
+
 
     out_path = './output'
-    df_miscon = data_report('./data_files/', 'dbo_Miscon.txt')
-    print('2023 count: ', df_miscon[df_miscon['misconduct_date']// 10000 == 2023].shape)
-    print('2024 count: ', df_miscon[df_miscon['misconduct_date']// 10000 == 2024].shape)
-    miscons = date_range_miscons()
-
-    miscon_per_inst_in_range_counts = {}
-    for sci in scis():
-        miscons_sci = miscons.loc[miscons['institution'] == sci]
-        miscon_sci_subset = miscons_sci[['institution', 'misconduct_date', 'control_number']]
-        miscon_per_inst_in_range_counts[sci] = miscon_sci_subset.shape[0]
-    df = pd.DataFrame.from_dict(miscon_per_inst_in_range_counts, orient="index", columns=['SCI'])
+    # df_miscon = data_report('./data_files/', 'dbo_Miscon.txt')
+    # print('2023 count: ', df_miscon[df_miscon['misconduct_date']// 10000 == 2023].shape)
+    # print('2024 count: ', df_miscon[df_miscon['misconduct_date']// 10000 == 2024].shape)
+    # miscons = date_range_miscons()
+    #
+    # miscon_per_inst_in_range_counts = {}
+    # for sci in scis():
+    #     miscons_sci = miscons.loc[miscons['institution'] == sci]
+    #     miscon_sci_subset = miscons_sci[['institution', 'misconduct_date', 'control_number']]
+    #     miscon_per_inst_in_range_counts[sci] = miscon_sci_subset.shape[0]
+    df = pd.DataFrame.from_dict(misconduct_controlled_counts, orient="index", columns=['SCI'])
     os.makedirs(out_path, exist_ok=True)
     df.to_csv(out_path + "/test.csv")
-    print(miscon_per_inst_in_range_counts)
 
 
 
