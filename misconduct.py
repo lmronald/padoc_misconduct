@@ -61,7 +61,7 @@ def miscon_per_institution_by_month_in_range(data_report, sci_list, start_date, 
                 if month < 10:
                     month_str = "0" + month_str
                 data_by_month = miscon_by_month_and_year(data_by_inst, month_str, year)
-                miscon_per_month[month_str + '-' + str(year)] = data_by_month.size
+                miscon_per_month[month_str + '-' + str(year)] = data_by_month.shape[0]
                 month += 1
             year += 1
         miscon_per_institution[inst] = miscon_per_month
@@ -71,7 +71,7 @@ def check_control(data_report, sci):
     # Based on control number of misconduct. Look for misconducts within the same hour that have the same number and collapse them.
     control_num_dict = {}
     scis_data = data_report.loc[data_report['institution'] == sci]
-    total_uncontrolled = scis_data.size
+    total_uncontrolled = scis_data.shape[0]
     for index, miscon_entry in scis_data.iterrows():
         control_num = miscon_entry['control_number']
         # First find all of the misconducts that match the control number
@@ -143,7 +143,7 @@ def form_141_counts(data_report, sci_list, year):
                 data_by_month = miscon_by_month_and_year(data_by_inst, month_str, year)
                 admin_count = 0
                 discp_count = 0
-                print("size of month data: ", data_by_month.size)
+                print("size of month data: ", data_by_month.shape[0])
                 print("form vals: ", data_by_month['form_141'])
                 # Why are some form values not showing despite size of month data being in the 1000+?
                 for form_val in data_by_month['form_141']:

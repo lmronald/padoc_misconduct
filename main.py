@@ -118,65 +118,25 @@ if __name__ == '__main__':
     # print("Controlled counts: ", misconduct_controlled_counts)
     # print("No controll counts: ", misconduct_uncontrolled_counts)
 
-    total_miscon_check = {}
+    out_path = './output'
+    df_miscon = data_report('./data_files/', 'dbo_Miscon.txt')
+    print('2023 count: ', df_miscon[df_miscon['misconduct_date']// 10000 == 2023].shape)
+    print('2024 count: ', df_miscon[df_miscon['misconduct_date']// 10000 == 2024].shape)
     miscons = date_range_miscons()
-    year1 = miscon_per_institution( data_report('./data_files', MISCON), 2023)
-    print("2023: ", year1)
-    year2 = miscon_per_institution( data_report('./data_files', MISCON), 2024)
+
+    miscon_per_inst_in_range_counts = {}
     for sci in scis():
-        total_miscon_check[sci] = year1[sci]+year2[sci]
-
-    print('total check: ', total_miscon_check)
-
-
-    output_dict_no_hour_control= {'ALB': 5151, 'BEN': 3247, 'CBS': 898, 'CAM': 2922, 'CHS': 2091, 'COA': 4010, 'DAL': 3384,
-                   'FYT': 3483, 'FRS': 5111, 'FRA': 1827, 'GRN': 4087, 'HOU': 3894, 'HUN': 5230, 'LAU': 1143,
-                   'MAH': 3141, 'MER': 1000, 'MUN': 1843, 'PHX': 5899, 'PNG': 2833, 'QUE': 33, 'ROC': 3540, 'SMI': 2230,
-                   'SMR': 4165, 'WAM': 914}
-
-    controlled_counts_reduced_for_hour = {'ALB': 5554, 'BEN': 3415, 'CBS': 952, 'CAM': 3067, 'CHS': 2264, 'COA': 4246,
-                                          'DAL': 3627, 'FYT': 3650, 'FRS': 5496, 'FRA': 1918, 'GRN': 4281, 'HOU': 4107,
-                                          'HUN': 5589, 'LAU': 1195, 'MAH': 3355, 'MER': 1050,'MUN': 1960, 'PHX': 6244,
-                                          'PNG': 3043, 'QUE': 36, 'ROC': 3748, 'SMI': 2329, 'SMR': 4462, 'WAM': 952}
-
-    miscon_counts_not_controlled = {'ALB': 259380, 'BEN': 158048, 'CBS': 45496, 'CAM': 142956, 'CHS': 105732, 'COA': 196636,
-                                    'DAL': 165220, 'FYT': 170500, 'FRS': 264308, 'FRA': 87736, 'GRN': 197384, 'HOU': 193204,
-                                    'HUN': 258016, 'LAU': 55572, 'MAH': 154132, 'MER': 48884, 'MUN': 91520, 'PHX': 289696,
-                                    'PNG': 144716, 'QUE': 1496, 'ROC': 173844, 'SMI': 105644, 'SMR': 206272, 'WAM': 43868}
+        miscons_sci = miscons.loc[miscons['institution'] == sci]
+        miscon_sci_subset = miscons_sci[['institution', 'misconduct_date', 'control_number']]
+        miscon_per_inst_in_range_counts[sci] = miscon_sci_subset.shape[0]
+    df = pd.DataFrame.from_dict(miscon_per_inst_in_range_counts, orient="index", columns=['SCI'])
+    os.makedirs(out_path, exist_ok=True)
+    df.to_csv(out_path + "/test.csv")
+    print(miscon_per_inst_in_range_counts)
 
 
 
-    #
-    # print("total misconduct count for 2023: ", miscon_by_year(data_report('./data_files', MISCON), '2023').size)
-    # print("total misconduct count for 2024: ", miscon_by_year(data_report('./data_files', MISCON), '2024').size)
-    print("Miscon sci list: ", scis_check())
-
-    extra_miscon_scis = ['PIT', 'CRE', 'GRA', 'GRE', 'RET', 'WAY', '129', '756', '104', '136', '201', '117', '203', '116',
-                         '131', '109', '102', '305', '106', '319', '124', '119', '225', '127', '209', '313', '135', '231',
-                         '304', '303', '317', '204', '133', '126', '999']
-
-    extra_counts = {'PIT': 0, 'CRE': 0, 'GRA': 0, 'GRE': 0, 'RET': 0, 'WAY': 0, '129': 0, '756': 0, '104': 0, '136': 0,
-             '201': 0, '117': 0, '203': 0, '116': 0, '131': 0, '109': 0, '102': 0, '305': 0, '106': 0, '319': 0,
-             '124': 0, '119': 0, '225': 0, '127': 0, '209': 0, '313': 0, '135': 0, '231': 0, '304': 0, '303': 0,
-             '317': 0, '204': 0, '133': 0, '126': 0, '999': 0}
 
 
-    # ex_misconduct_controlled_counts = {}
-    # ex_misconduct_uncontrolled_counts = {}
-    # miscons = date_range_miscons()
-    # for sci in extra_miscon_scis:
-    #     print("SCI: ", sci)
-    #     control, uncontrolled_count = check_control(miscons, sci)
-    #     ex_misconduct_uncontrolled_counts[sci] = uncontrolled_count
-    #     ex_misconduct_controlled_counts[sci] = len(control)
-    # print("Controlled counts: ", ex_misconduct_controlled_counts)
-    # print("No controll counts: ", ex_misconduct_uncontrolled_counts)
 
-    # main(function='histogram', SCI='ALB')
-    #
-    # main(function='scatter_plot')
-
-    #main(function='form_141')
-
-    #main(function='monthly_miscon')
 
