@@ -120,17 +120,25 @@ if __name__ == '__main__':
 
 
     out_path = './output'
-    # df_miscon = data_report('./data_files/', 'dbo_Miscon.txt')
-    # print('2023 count: ', df_miscon[df_miscon['misconduct_date']// 10000 == 2023].shape)
-    # print('2024 count: ', df_miscon[df_miscon['misconduct_date']// 10000 == 2024].shape)
-    # miscons = date_range_miscons()
-    #
-    # miscon_per_inst_in_range_counts = {}
-    # for sci in scis():
-    #     miscons_sci = miscons.loc[miscons['institution'] == sci]
-    #     miscon_sci_subset = miscons_sci[['institution', 'misconduct_date', 'control_number']]
-    #     miscon_per_inst_in_range_counts[sci] = miscon_sci_subset.shape[0]
-    df = pd.DataFrame.from_dict(misconduct_controlled_counts, orient="index", columns=['SCI'])
+    df_miscon = data_report('./data_files/', 'dbo_Miscon.txt')
+    twenty_three = df_miscon[df_miscon['misconduct_date']// 10000 == 2023]
+    twenty_four = df_miscon[df_miscon['misconduct_date']// 10000 == 2024]
+
+    alb_th = twenty_three[twenty_three['institution'] == 'ALB'].shape[0]
+    alb_fo = twenty_four[twenty_four['institution'] == 'ALB'].shape[0]
+    print("ALB count: " ,alb_fo + alb_th)
+
+    miscons = df_miscon[df_miscon['misconduct_date'] > 20221231]
+    miscons_in_range = miscons[miscons['misconduct_date'] < 20250101]
+    print("miscons shape: ", miscons_in_range.shape[0])
+
+    miscon_per_inst_in_range_counts = {}
+    for sci in scis():
+        miscons_in_range_sci = miscons_in_range.loc[miscons_in_range['institution'] == sci]
+        miscon_sci_subset = miscons_in_range_sci[['institution', 'misconduct_date', 'control_number']]
+        miscon_per_inst_in_range_counts[sci] = miscon_sci_subset.shape[0]
+    print("miscon per inst: ", miscon_per_inst_in_range_counts)
+    df = pd.DataFrame.from_dict(miscon_per_inst_in_range_counts, orient="index", columns=['SCI'])
     os.makedirs(out_path, exist_ok=True)
     df.to_csv(out_path + "/test.csv")
 
