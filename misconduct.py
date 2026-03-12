@@ -7,6 +7,7 @@ import plotly.graph_objects as go
 import codecs
 import statistics
 from data_report import *
+import datetime as dt
 
 
 """
@@ -15,9 +16,12 @@ Author: Lace Ronald
 """
 
 def miscon_by_month_and_year(data_report, month, year):
-        # Use integer math to compare year and month without regarding the day.
-        date_int = int(year)*100 + int(month)
-        return data_report.loc[data_report['misconduct_date'] // 100 == date_int]
+    miscon_by_year = data_report[data_report['misconduct_date'].dt.year == year]
+    print("By year: ", miscon_by_year.shape)
+    print("Month reps: " , miscon_by_year['misconduct_date'].dt.month.value_counts())
+    miscon_by_month = miscon_by_year[miscon_by_year['misconduct_date'].dt.month == month]
+    print("By month: ", miscon_by_month.shape)
+    return miscon_by_month
 
 def miscon_by_year(data_report, year):
         # Applies a filter variable to each entry with the desired year.
@@ -38,13 +42,13 @@ def miscon_per_institution(data_report, year):
         return miscon_per_institution
 
 def miscon_per_institution_by_month_in_range(data_report, sci_list, start_date, end_date):
-    start_year = int(start_date.split('-')[2])
-    start_month = int(start_date.split('-')[0])
-    end_month = int(end_date.split('-')[0])
-    end_year = int(end_date.split('-')[2])
-    data_for_range = data_report
+    miscons_in_range = miscon_per_institution_in_date_range(data_report, start_date, end_date)
+    start_year = start_date.year
+    start_month = start_date.month
+    end_year = end_date.year
+    end_month = end_date.month
+    data_for_range = miscons_in_range
     miscon_per_institution = {}
-
     for inst in sci_list:
         miscon_per_month = {}
         data_by_inst = data_for_range.loc[data_for_range['institution'] == inst]
@@ -60,7 +64,7 @@ def miscon_per_institution_by_month_in_range(data_report, sci_list, start_date, 
                 month_str = str(month)
                 if month < 10:
                     month_str = "0" + month_str
-                data_by_month = miscon_by_month_and_year(data_by_inst, month_str, year)
+                data_by_month = miscon_by_month_and_year(data_by_inst, month, year)
                 miscon_per_month[month_str + '-' + str(year)] = data_by_month.shape[0]
                 month += 1
             year += 1
@@ -103,15 +107,19 @@ def check_control(data_report, sci):
 
 
 def miscon_per_institution_in_date_range(data_report, start_date, end_date):
-    data_report['in_range'] = data_report['misconduct_date'].apply(lambda x: date_in_range(x,'int', start_date, end_date))
-    return data_report[(data_report['in_range'])]
+    data_report = data_report.drop(data_report[data_report.misconduct_date == 99999999].index)
+    data_report['misconduct_date'] = pd.to_datetime(data_report['misconduct_date'].astype(str), format="%Y%m%d")
+    miscons = data_report[data_report['misconduct_date'] > start_date]
+    miscons_in_range = miscons[miscons['misconduct_date'] < end_date]
+    print("In range size: ", miscons_in_range.shape)
+    return miscons_in_range
 
 def miscon_rates_by_month_and_year(miscons, populations, start_date, end_date):
     # Take population and misconduct dictionaries by month and year and produce the misconduct rates for those months.
-    start_year = int(start_date.split('-')[2])
-    start_month = int(start_date.split('-')[0])
-    end_month = int(end_date.split('-')[0])
-    end_year = int(end_date.split('-')[2])
+    start_year = start_date.year
+    start_month = start_date.month
+    end_year = end_date.year
+    end_month = end_date.month
     rates = {}
     for sci in populations:
         monthly_rate = {}
@@ -125,7 +133,7 @@ def miscon_rates_by_month_and_year(miscons, populations, start_date, end_date):
                 last_month = end_month
             sci_miscons = miscons[sci]
             sci_pops = populations[sci]
-            while month < 13:
+            while month <= last_month:
                 month_str = str(month)
                 if month < 10:
                     month_str = "0" + str(month)

@@ -31,11 +31,10 @@ def population_per_institution(data, inst_list, year):
 def population_per_institution_by_month_in_range(data_report, inst_list, data_category, start_date, end_date):
     # Ingests the population data from physically-present-population file.
     # Outputs the institution and the average population that year.
-    start_year = int(start_date.split('-')[2])
-    start_month = int(start_date.split('-')[0])
-    end_month = int(end_date.split('-')[0])
-    end_year = int(end_date.split('-')[2])
-    year_count = end_year - start_year
+    start_year = start_date.year
+    start_month = start_date.month
+    end_month = end_date.month
+    end_year = end_date.year
     pop_per_institution = {}
     for inst in inst_list:
         month = start_month

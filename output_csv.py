@@ -10,10 +10,10 @@ File that takes dictionary objects on population, capacity, and misconduct then 
 def output_csv(sci_list, misconducts, misconduct_rates, capacity, population, ac_status, dc_status, start_date, end_date, out_path):
     columns = ['Date', 'SCI', 'Misconduct Count', 'Misconduct Rate', 'Percent capacity', 'Population', 'Restricted Housing AC', 'Restricted Housing DC']
     rows = {}
-    start_year = int(start_date.split('-')[2])
-    start_month = int(start_date.split('-')[0])
-    end_month = int(end_date.split('-')[0])
-    end_year = int(end_date.split('-')[2])
+    start_year = start_date.year
+    start_month = start_date.month
+    end_year = end_date.year
+    end_month = end_date.month
     year = start_year
     while year != (end_year + 1):
         month = 1
