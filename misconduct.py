@@ -17,10 +17,7 @@ Author: Lace Ronald
 
 def miscon_by_month_and_year(data_report, month, year):
     miscon_by_year = data_report[data_report['misconduct_date'].dt.year == year]
-    print("By year: ", miscon_by_year.shape)
-    print("Month reps: " , miscon_by_year['misconduct_date'].dt.month.value_counts())
     miscon_by_month = miscon_by_year[miscon_by_year['misconduct_date'].dt.month == month]
-    print("By month: ", miscon_by_month.shape)
     return miscon_by_month
 
 def miscon_by_year(data_report, year):
@@ -111,7 +108,6 @@ def miscon_per_institution_in_date_range(data_report, start_date, end_date):
     data_report['misconduct_date'] = pd.to_datetime(data_report['misconduct_date'].astype(str), format="%Y%m%d")
     miscons = data_report[data_report['misconduct_date'] > start_date]
     miscons_in_range = miscons[miscons['misconduct_date'] < end_date]
-    print("In range size: ", miscons_in_range.shape)
     return miscons_in_range
 
 def miscon_rates_by_month_and_year(miscons, populations, start_date, end_date):
@@ -160,7 +156,6 @@ def form_141_counts(data_report, sci_list, year):
                 data_by_month = miscon_by_month_and_year(data_by_inst, month_str, year)
                 admin_count = 0
                 discp_count = 0
-                print("size of month data: ", data_by_month.shape[0])
                 print("form vals: ", data_by_month['form_141'])
                 # Why are some form values not showing despite size of month data being in the 1000+?
                 for form_val in data_by_month['form_141']:
