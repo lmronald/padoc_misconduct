@@ -3,6 +3,7 @@ from data_report import *
 from misconduct import *
 from population import *
 from output_csv import *
+from control_counts import *
 from visualization import *
 from capacity import *
 import os
@@ -114,11 +115,12 @@ if __name__ == '__main__':
     sci_list = scis()
     total_count = {}
     count = 0
+    miscons = date_range_miscons()
     for sci in sci_list:
         sci_entries = output_df[output_df['SCI'] == sci]
         sci_miscons = sci_entries[['Misconduct Count']]
-        #print("sci values: ", sci_entries.value_counts())
-        print("Sum: ", sci,  sci_miscons.cumsum())
+        #print("Sum: ", sci,  sci_miscons.cumsum())
+        control_repeats(miscons, sci)
 
 
 
