@@ -96,7 +96,7 @@ if __name__ == '__main__':
     """
     YEAR = '2023'
     DATE_START = datetime.strptime("20230101", "%Y%m%d")
-    DATE_END = datetime.strptime("20241212", "%Y%m%d")
+    DATE_END = datetime.strptime("20241231", "%Y%m%d")
     MISCON = 'dbo_Miscon.txt'
     POP = 'physically-present-population-23-24.csv'
     CAP = 'occupancy-23-24.csv'
@@ -116,9 +116,9 @@ if __name__ == '__main__':
     count = 0
     for sci in sci_list:
         sci_entries = output_df[output_df['SCI'] == sci]
-        sci_entries = sci_entries.drop(["Misconduct Rate","Percent capacity","Population","Restricted Housing AC","Restricted Housing DC"], axis=1)
+        sci_miscons = sci_entries[['Misconduct Count']]
         #print("sci values: ", sci_entries.value_counts())
-        print("Sum: ", sci_entries.cumsum(axis=1))
+        print("Sum: ", sci,  sci_miscons.cumsum())
 
 
 
