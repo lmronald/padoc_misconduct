@@ -31,3 +31,14 @@
 # df = pd.DataFrame.from_dict(miscon_per_inst_in_range_counts, orient="index", columns=['SCI'])
 # os.makedirs(out_path, exist_ok=True)
 # df.to_csv(out_path + "/test.csv")
+
+# print("Inst size: ", output_df.groupby('SCI').value_counts())
+# sci_list = scis()
+# total_count = {}
+# count = 0
+# miscons = date_range_miscons()
+# for sci in sci_list:
+#     sci_entries = output_df[output_df['SCI'] == sci]
+#     sci_miscons = sci_entries[['Misconduct Count']]
+#     #print("Sum: ", sci,  sci_miscons.cumsum())
+#     control_repeats(miscons, sci)

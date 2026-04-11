@@ -8,6 +8,7 @@ from visualization import *
 from capacity import *
 import os
 from datetime import datetime
+from control_counts import *
 
 def main(**kwargs):
     if 'date-start' in kwargs:
@@ -58,6 +59,10 @@ def monthly_miscon_in_range():
     report = data_report('./data_files', MISCON)
     return miscon_per_institution_by_month_in_range(report, scis(), DATE_START, DATE_END)
 
+def monthly_control_counts_in_range():
+    report = data_report('./data_files', MISCON)
+    return control_counts_per_institution_by_month_in_range(report, scis(), DATE_START, DATE_END)
+
 def monthly_miscon_in_range_avg_rate():
     return average_rate(monthly_miscon_rates())
 
@@ -93,11 +98,10 @@ if __name__ == '__main__':
     TODO: create histogram based on frequency of misconducts per year by person instead
     of averages across institution??
     
-    TODO: update year filtering to work for multiple years/range of years.
     """
     YEAR = '2023'
-    DATE_START = datetime.strptime("20230101", "%Y%m%d")
-    DATE_END = datetime.strptime("20241231", "%Y%m%d")
+    DATE_START = datetime.datetime.strptime("20230101", "%Y%m%d")
+    DATE_END = datetime.datetime.strptime("20241231", "%Y%m%d")
     MISCON = 'dbo_Miscon.txt'
     POP = 'physically-present-population-23-24.csv'
     CAP = 'occupancy-23-24.csv'
@@ -108,19 +112,10 @@ if __name__ == '__main__':
     #miscs = monthly_miscon_in_range()
     #miscs_rate = monthly_miscon_rates()
 
-    print("output: ", output())
+    #print("output: ", output())
 
     output_df = data_report('./output', 'miscon_with_pop.csv')
-    print("Inst size: ", output_df.groupby('SCI').value_counts())
-    sci_list = scis()
-    total_count = {}
-    count = 0
-    miscons = date_range_miscons()
-    for sci in sci_list:
-        sci_entries = output_df[output_df['SCI'] == sci]
-        sci_miscons = sci_entries[['Misconduct Count']]
-        #print("Sum: ", sci,  sci_miscons.cumsum())
-        control_repeats(miscons, sci)
+    print(monthly_control_counts_in_range())
 
 
 
