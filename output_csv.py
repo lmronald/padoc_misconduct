@@ -7,13 +7,15 @@ Author: Lace Ronald
 File that takes dictionary objects on population, capacity, and misconduct then produces a reusable CSV file.
 """
 
-def output_csv(sci_list, misconducts, misconduct_rates, capacity, population, ac_status, dc_status, start_date, end_date, out_path):
-    columns = ['Date', 'SCI', 'Misconduct Count', 'Misconduct Rate', 'Percent capacity', 'Population', 'Restricted Housing AC', 'Restricted Housing DC']
+def output_csv(sci_list, misconducts, misconduct_rates, capacity, population, ac_status, dc_status, control_counts, start_date, end_date, out_path):
+    columns = ['Date', 'SCI', 'Misconduct Count', 'Misconduct Rate', 'Percent capacity', 'Population', 'Maximum misconduct per person',
+               'Average misconduct per person', 'Minimum misconduct per person',
+               'Restricted Housing AC', 'Restricted Housing DC']
     rows = {}
-    start_year = int(start_date.split('-')[2])
-    start_month = int(start_date.split('-')[0])
-    end_month = int(end_date.split('-')[0])
-    end_year = int(end_date.split('-')[2])
+    start_year = start_date.year
+    start_month = start_date.month
+    end_year = end_date.year
+    end_month = end_date.month
     year = start_year
     while year != (end_year + 1):
         month = 1
@@ -29,7 +31,8 @@ def output_csv(sci_list, misconducts, misconduct_rates, capacity, population, ac
                 rows[date + ' ' + sci] = [date, sci, str(misconducts[sci][date]),
                                                   str(misconduct_rates[sci][date]),
                                                   str(capacity[sci][date]), str(population[sci][date]),
-                                                    str(ac_status[sci][date]), str(dc_status[sci][date])]
+                                                  str(control_counts[sci][date]['max']), str(control_counts[sci][date]['mean']),
+                                          str(control_counts[sci][date]['min']), str(ac_status[sci][date]), str(dc_status[sci][date])]
             month += 1
         year += 1
     df = pd.DataFrame.from_dict(rows, orient='index', columns=columns)

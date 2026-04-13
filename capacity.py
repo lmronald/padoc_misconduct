@@ -11,10 +11,10 @@ Author: Lace Ronald
 def capacity_per_institution_by_month_in_range(data_report, inst_list, start_date, end_date):
     # Ingests the population data from physically-present-population file.
     # Outputs the institution and the average population that year.
-    start_year = int(start_date.split('-')[2])
-    start_month = int(start_date.split('-')[0])
-    end_month = int(end_date.split('-')[0])
-    end_year = int(end_date.split('-')[2])
+    start_year = start_date.year
+    start_month = start_date.month
+    end_year = end_date.year
+    end_month = end_date.month
 
     data = update_sci_names(data_report)
     cap_per_institution = {}
