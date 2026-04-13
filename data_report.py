@@ -29,7 +29,6 @@ def average_rate(misconduct_rates_in_range):
         rates = misconduct_rates_in_range[sci].values()
         for rate in rates:
             rate_list.append(rate)
-    print("mean: ", statistics.mean(rate_list))
     return statistics.mean(rate_list)
 
 
@@ -37,7 +36,6 @@ def rates_of_misconduct_per_year(misconduct, population):
     rates = {}
     for inst in misconduct.keys():
         rates[inst] = misconduct[inst] / population[inst]
-    print("Rates of misconduct: ", rates)
     return rates
 
 def sci_list(data_report, inst_field):

@@ -46,7 +46,6 @@ def control_repeats(data_report, sci):
     # Given a data report in the range, produce the mean, max, and min count for a given control number.
     # The min will most likely be 1 in all cases since we're not comparing to the list of controls outside of misconducts.
     scis_data = data_report.loc[data_report['institution'] == sci]
-    print("control counts: ", scis_data.control_number.value_counts())
     mean_cont = scis_data[['institution', 'control_number']].control_number.value_counts().mean()
     max_cont = scis_data[['institution', 'control_number']].control_number.value_counts().max()
     min_cont = scis_data[['institution', 'control_number']].control_number.value_counts().min()

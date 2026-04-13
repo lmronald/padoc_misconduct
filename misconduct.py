@@ -31,7 +31,6 @@ def miscon_per_institution(data_report, year):
         filtered_data = miscon_by_year(data_report, year)
         miscon_per_institution = {}
         for mis_inst in filtered_data['institution']:
-                print('institution: ', mis_inst)
                 if mis_inst not in miscon_per_institution:
                         miscon_per_institution[mis_inst] = 1
                 else:
