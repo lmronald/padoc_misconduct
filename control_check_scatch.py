@@ -42,3 +42,11 @@
 #     sci_miscons = sci_entries[['Misconduct Count']]
 #     #print("Sum: ", sci,  sci_miscons.cumsum())
 #     control_repeats(miscons, sci)
+
+# #Check ALB
+# SCI="ALB"
+# df = data_report('./data_files', MISCON)
+# df_alb = df.loc[df['institution'] == SCI]
+# df_in_jan = df_alb[df_alb['misconduct_date'] >= 20230101]
+# df_full_date_range = df_in_jan[df_in_jan['misconduct_date'] <= 20230131]
+# print(df_full_date_range.shape[0])

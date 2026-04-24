@@ -71,8 +71,8 @@ def miscon_per_institution_by_month_in_range(data_report, sci_list, start_date, 
 def miscon_per_institution_in_date_range(data_report, start_date, end_date):
     data_report = data_report.drop(data_report[data_report.misconduct_date == 99999999].index)
     data_report['misconduct_date'] = pd.to_datetime(data_report['misconduct_date'].astype(str), format="%Y%m%d")
-    miscons = data_report[data_report['misconduct_date'] > start_date]
-    miscons_in_range = miscons[miscons['misconduct_date'] < end_date]
+    miscons = data_report[data_report['misconduct_date'] >= start_date]
+    miscons_in_range = miscons[miscons['misconduct_date'] <= end_date]
     return miscons_in_range
 
 def miscon_rates_by_month_and_year(miscons, populations, start_date, end_date):
