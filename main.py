@@ -77,12 +77,6 @@ def monthly_dc_status():
     report = data_report('./data_files', POP)
     return population_per_institution_by_month_in_range(report, scis(), 'Restricted Housing DC' , DATE_START, DATE_END)
 
-def scatter_plot():
-    all_sci_scatter_plot(monthly_miscon_in_range(), monthly_cap_in_range(), YEAR)
-
-def histogram(sci):
-    sci_histogram(monthly_miscon_rates()[sci], sci, monthly_miscon_in_range_avg_rate(), DATE_START, DATE_END)
-
 def output():
     return output_csv(scis(), monthly_miscon_in_range(), monthly_miscon_rates(),
                       monthly_cap_in_range(), monthly_pop_in_range(), monthly_ac_status(), monthly_dc_status(),
