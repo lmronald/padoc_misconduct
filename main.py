@@ -4,7 +4,6 @@ from misconduct import *
 from population import *
 from output_csv import *
 from control_counts import *
-from visualization import *
 from capacity import *
 import os
 from datetime import datetime
